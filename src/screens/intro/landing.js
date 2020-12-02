@@ -6,7 +6,7 @@ import LandingImage from '../../assets/Landing.png';
 const Landing = () => {
   return (
     <SafeAreaView style={Styles.landingContainer}>
-      <View style={Styles.ttileContainer}>
+      <View style={Styles.titleContainer}>
         <Text style={Styles.titleLanding}>Let's Do</Text>
       </View>
       <View style={Styles.contentContainer}>
