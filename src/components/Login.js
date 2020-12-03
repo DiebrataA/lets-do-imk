@@ -1,4 +1,4 @@
-import React, {Component, Fragment} from 'react';
+import React, {Fragment, useState} from 'react';
 import {View, Text} from 'react-native';
 import {Input, TextLink, Loading, Button} from './common';
 import axios from 'axios';
@@ -6,24 +6,15 @@ import {BASE_API} from '../constant';
 import {saveKeyValue} from '../services';
 import LoggedIn from '../screens/auth/LoggedIn';
 
-class Login extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      username: props.username || '',
-      password: props.password || '',
-      error: '',
-      loading: false,
-    };
+const Login = (props) => {
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState('');
+  const [jwt, setJWT] = useState('');
 
-    this.loginUser = this.loginUser.bind(this);
-    this.onLoginFail = this.onLoginFail.bind(this);
-  }
-
-  loginUser() {
-    const {username, password} = this.state;
-
-    this.setState({error: '', loading: true});
+  const loginUser = () => {
+    setLoading(true);
     const header = {
       headers: {
         'Content-Type': 'application/json',
@@ -37,30 +28,22 @@ class Login extends Component {
       )
       .then((response) => {
         saveKeyValue('id_token', response.data.access).catch((e) =>
-          e ? console.log(e.response.data) : console.log('asu'),
+          e ? console.log(e.response.data) : console.log(e),
         );
-        this.props.newJWT(response.data.access);
+        props.newJWT(response.data.access);
+        setJWT(response.data.access);
       })
-      .catch((error) => {
-        console.log(error);
-        this.onLoginFail();
+      .catch((e) => {
+        console.log(e);
+        setLoading(false);
+        setError('Login Failed' + e);
       });
-  }
+  };
+  const {form, section, errorTextStyle} = styles;
 
-  onLoginFail() {
-    this.setState({
-      error: 'Login Failed',
-      loading: false,
-    });
-  }
-
-  render() {
-    const {username, password, error, loading} = this.state;
-    const {form, section, errorTextStyle} = styles;
-
-    if (this.props.newJWT) {
-      return <LoggedIn />;
-    }
+  if (jwt) {
+    return <LoggedIn newJWT={jwt} />;
+  } else {
     return (
       <Fragment>
         <View style={form}>
@@ -69,7 +52,7 @@ class Login extends Component {
               placeholder="username"
               label="Username"
               value={username}
-              onChangeText={(uname) => this.setState({username: uname})}
+              onChangeText={(uname) => setUsername(uname)}
             />
           </View>
 
@@ -79,25 +62,25 @@ class Login extends Component {
               placeholder="password"
               label="Password"
               value={password}
-              onChangeText={(pass) => this.setState({password: pass})}
+              onChangeText={(pass) => setPassword(pass)}
             />
           </View>
 
           <Text style={errorTextStyle}>{error}</Text>
 
           {!loading ? (
-            <Button onPress={this.loginUser}>Login</Button>
+            <Button onPress={loginUser}>Login</Button>
           ) : (
             <Loading size={'large'} />
           )}
         </View>
-        <TextLink onPress={this.props.authSwitch}>
+        <TextLink onPress={props.authSwitch}>
           Don't have an account? Register!
         </TextLink>
       </Fragment>
     );
   }
-}
+};
 
 const styles = {
   form: {

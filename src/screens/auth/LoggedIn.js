@@ -10,9 +10,11 @@ export default class Auth extends Component {
   }
 
   render() {
+    console.log('LOGGED IN PAGE');
+    console.log(this.props.newJWT);
     return (
       <View style={styles.container}>
-        <Text>Asu</Text>
+        <Text>This is your jwt {this.props.newJWT}</Text>
       </View>
     );
   }
