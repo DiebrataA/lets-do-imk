@@ -1,9 +1,9 @@
 import React, {Component, Fragment} from 'react';
 import {View, Text} from 'react-native';
-import {Input, TextLink, Loading, Button} from './common';
+import {Input, TextLink, Loading, Button} from '../../components/common';
 import axios from 'axios';
-import {BASE_API} from '../constant';
-import {saveData} from '../services';
+import {BASE_API} from '../../constant';
+import {saveData} from '../../services';
 
 class Registration extends Component {
   constructor(props) {

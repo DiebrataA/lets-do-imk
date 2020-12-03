@@ -1,10 +1,10 @@
 import React, {Fragment, useState} from 'react';
 import {View, Text} from 'react-native';
-import {Input, TextLink, Loading, Button} from './common';
+import {Input, TextLink, Loading, Button} from '../../components/common';
 import axios from 'axios';
-import {BASE_API} from '../constant';
-import {saveData} from '../services';
-import Home from '../screens/home/Home';
+import {BASE_API} from '../../constant';
+import {saveData} from '../../services';
+import Home from '../home/Home';
 
 const Login = (props) => {
   const [username, setUsername] = useState('');
