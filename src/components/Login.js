@@ -4,7 +4,7 @@ import {Input, TextLink, Loading, Button} from './common';
 import axios from 'axios';
 import {BASE_API} from '../constant';
 import {saveData} from '../services';
-import LoggedIn from '../screens/auth/LoggedIn';
+import Home from '../screens/home/Home';
 
 const Login = (props) => {
   const [username, setUsername] = useState('');
@@ -44,7 +44,7 @@ const Login = (props) => {
   const {form, section, errorTextStyle} = styles;
 
   if (jwt) {
-    return <LoggedIn newJWT={jwt} />;
+    return <Home />;
   } else {
     return (
       <Fragment>

@@ -1,37 +1,23 @@
-import React, {Component} from 'react';
+import React, {useState} from 'react';
 import {View} from 'react-native';
 import {Login, Registration} from '../../components';
 
-export default class Auth extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      showLogin: false,
-    };
-    this.whichForm = this.whichForm.bind(this);
-    this.authSwitch = this.authSwitch.bind(this);
-  }
+const Auth = (props) => {
+  const [showLogin, setShowLogin] = useState(false);
 
-  authSwitch() {
-    this.setState({
-      showLogin: !this.state.showLogin,
-    });
-  }
+  const authSwitch = () => setShowLogin(!showLogin);
 
-  whichForm() {
-    if (!this.state.showLogin) {
-      return (
-        <Registration newJWT={this.props.newJWT} authSwitch={this.authSwitch} />
-      );
+  const whichForm = () => {
+    if (!showLogin) {
+      return <Registration newJWT={props.newJWT} authSwitch={authSwitch} />;
     } else {
-      return <Login newJWT={this.props.newJWT} authSwitch={this.authSwitch} />;
+      return <Login newJWT={props.newJWT} authSwitch={authSwitch} />;
     }
-  }
+  };
 
-  render() {
-    return <View style={styles.container}>{this.whichForm()}</View>;
-  }
-}
+  return <View style={styles.container}>{whichForm()}</View>;
+};
+export default Auth;
 
 const styles = {
   container: {
