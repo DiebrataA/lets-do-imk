@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {View} from 'react-native';
+import {View, Text} from 'react-native';
 
 export default class Auth extends Component {
   constructor(props) {
@@ -10,7 +10,11 @@ export default class Auth extends Component {
   }
 
   render() {
-    return <View style={styles.container} />;
+    return (
+      <View style={styles.container}>
+        <Text>Asu</Text>
+      </View>
+    );
   }
 }
 

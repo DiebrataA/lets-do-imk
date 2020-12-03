@@ -4,31 +4,19 @@ import 'react-native-gesture-handler';
 // import MainNavigation from './src/navigation/main-navigation';
 import Auth from './src/screens/auth/Auth';
 import LoggedIn from './src/screens/auth/Auth';
+import {useState} from 'react';
 
-class App extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      jwt: '',
-    };
-  }
-
-  newJWT(jwt) {
-    this.setState({
-      jwt: jwt,
-    });
-  }
-  render() {
-    if (!this.state.jwt) {
-      return <Auth />;
-    } else {
-      return (
-        <LoggedIn />
-        //<NavigationContainer>
-        //<MainNavigation />
-        //</NavigationContainer>
-      );
-    }
+function App() {
+  const [jwt, newJWT] = useState('');
+  if (!jwt) {
+    return <Auth newJWT={newJWT} />;
+  } else {
+    return (
+      <LoggedIn />
+      //<NavigationContainer>
+      //<MainNavigation />
+      //</NavigationContainer>
+    );
   }
 }
 export default App;

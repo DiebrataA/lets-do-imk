@@ -3,7 +3,7 @@ import {View, Text} from 'react-native';
 import {Input, TextLink, Loading, Button} from './common';
 import axios from 'axios';
 import {BASE_API} from '../constant';
-import deviceStorage from '../services/deviceStorage';
+import {saveKeyValue} from '../services';
 
 class Registration extends Component {
   constructor(props) {
@@ -43,8 +43,7 @@ class Registration extends Component {
         // deviceStorage.saveKey('id_token', response.data.jwt);
         axios
           .then((response) => {
-            // this.props.newJWT(response.data.jwt);
-            console.log(response.data);
+            this.props.newJWT(response.data.access);
           })
           .catch((error) => {
             if (error.response) {

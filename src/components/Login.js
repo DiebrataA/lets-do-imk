@@ -3,14 +3,15 @@ import {View, Text} from 'react-native';
 import {Input, TextLink, Loading, Button} from './common';
 import axios from 'axios';
 import {BASE_API} from '../constant';
-import deviceStorage from '../services/deviceStorage';
+import {saveKeyValue} from '../services';
+import LoggedIn from '../screens/auth/LoggedIn';
 
 class Login extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      username: '',
-      password: '',
+      username: props.username || '',
+      password: props.password || '',
       error: '',
       loading: false,
     };
@@ -34,13 +35,14 @@ class Login extends Component {
         {username: username, password: password},
         header,
       )
-      // .then((response) => {
-      //   // deviceStorage.saveItem('id_token', response.data.access);
-      //   // this.props.newJWT(response.data.access);
-      // })
+      .then((response) => {
+        saveKeyValue('id_token', response.data.access).catch((e) =>
+          e ? console.log(e.response.data) : console.log('asu'),
+        );
+        this.props.newJWT(response.data.access);
+      })
       .catch((error) => {
         console.log(error);
-        console.log(error.response.data);
         this.onLoginFail();
       });
   }
@@ -56,6 +58,9 @@ class Login extends Component {
     const {username, password, error, loading} = this.state;
     const {form, section, errorTextStyle} = styles;
 
+    if (this.props.newJWT) {
+      return <LoggedIn />;
+    }
     return (
       <Fragment>
         <View style={form}>
@@ -74,7 +79,7 @@ class Login extends Component {
               placeholder="password"
               label="Password"
               value={password}
-              onChangeText={(password) => this.setState({password})}
+              onChangeText={(pass) => this.setState({password: pass})}
             />
           </View>
 
