@@ -3,7 +3,7 @@ import {View, Text} from 'react-native';
 import {Input, TextLink, Loading, Button} from './common';
 import axios from 'axios';
 import {BASE_API} from '../constant';
-import {saveKeyValue} from '../services';
+import {saveData} from '../services';
 import LoggedIn from '../screens/auth/LoggedIn';
 
 const Login = (props) => {
@@ -27,16 +27,18 @@ const Login = (props) => {
         header,
       )
       .then((response) => {
-        saveKeyValue('id_token', response.data.access).catch((e) =>
+        var acc = response.data.access;
+        console.log(acc);
+        saveData('user_access_token', acc).catch((e) =>
           e ? console.log(e.response.data) : console.log(e),
         );
-        props.newJWT(response.data.access);
-        setJWT(response.data.access);
+        props.newJWT(acc);
+        setJWT(acc);
       })
       .catch((e) => {
-        console.log(e);
+        console.log(e.response.data);
         setLoading(false);
-        setError('Login Failed' + e);
+        setError('Login Failed: ' + e.message);
       });
   };
   const {form, section, errorTextStyle} = styles;

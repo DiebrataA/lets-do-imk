@@ -1,24 +1,17 @@
-import React, {Component} from 'react';
+import React from 'react';
 import {View, Text} from 'react-native';
 
-export default class Auth extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      showLogin: false,
-    };
-  }
-
-  render() {
-    console.log('LOGGED IN PAGE');
-    console.log(this.props.newJWT);
-    return (
-      <View style={styles.container}>
-        <Text>This is your jwt {this.props.newJWT}</Text>
-      </View>
-    );
-  }
-}
+const LoggedIn = (props) => {
+  console.log('LOGGED IN PAGE');
+  // console.log(props.newJWT);
+  return (
+    <View style={styles.container}>
+      {/*<Text>This is your jwt {props.newJWT}</Text>*/}
+      <Text>ASU</Text>
+    </View>
+  );
+};
+export default LoggedIn;
 
 const styles = {
   container: {
