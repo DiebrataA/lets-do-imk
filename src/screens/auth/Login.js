@@ -2,9 +2,9 @@ import React, {Fragment, useState} from 'react';
 import {View, Text} from 'react-native';
 import {Input, TextLink, Loading, Button} from '../../components/common';
 import axios from 'axios';
-import {BASE_API} from '../../constant';
-import {saveData} from '../../services';
-import Home from '../home/Home';
+import {BASE_API} from '../../Constant';
+import {removeData, saveData} from '../../services';
+import CategoryPage from '../home/CategoryPage';
 
 const Login = (props) => {
   const [username, setUsername] = useState('');
@@ -27,16 +27,16 @@ const Login = (props) => {
         header,
       )
       .then((response) => {
-        var acc = response.data.access;
-        console.log(acc);
+        const acc = response.data.access;
         saveData('user_access_token', acc).catch((e) =>
-          e ? console.log(e.response.data) : console.log(e),
+          e ? console.log(e.response) : console.log(e),
         );
-        props.newJWT(acc);
+        // props.newJWT(acc);
         setJWT(acc);
       })
       .catch((e) => {
-        console.log(e.response.data);
+        console.log(BASE_API + 'auth/token/');
+        console.log(e.status);
         setLoading(false);
         setError('Login Failed: ' + e.message);
       });
@@ -44,7 +44,7 @@ const Login = (props) => {
   const {form, section, errorTextStyle} = styles;
 
   if (jwt) {
-    return <Home />;
+    return <CategoryPage jwt={jwt} />;
   } else {
     return (
       <Fragment>
@@ -78,6 +78,10 @@ const Login = (props) => {
         </View>
         <TextLink onPress={props.authSwitch}>
           Don't have an account? Register!
+        </TextLink>
+        {/*TODO: MOVE THIS BARBARIC LOGOUT*/}
+        <TextLink onPress={() => removeData('user_access_token')}>
+          Logout
         </TextLink>
       </Fragment>
     );

@@ -1,14 +1,19 @@
 import Auth from './Auth';
-import React, {useState} from 'react';
-import Home from '../home/Home';
+import React, {useEffect, useState} from 'react';
+import CategoryPage from '../home/CategoryPage';
 import {getData} from '../../services';
 
 const AuthPages = () => {
-  // const [jwt, newJWT] = useState();
-  const [jwt, newJWT] = useState(getData('user_access_token'));
+  const [jwt, newJWT] = useState();
+  //
+  // useEffect(() => {
+  //   getData('user_access_token')
+  //     .then((token) => newJWT(token))
+  //     .then((r) => console.log(r));
+  // });
 
   if (jwt) {
-    return <Home />;
+    return <CategoryPage jwt={jwt} />;
   } else {
     return <Auth newJWT={newJWT} />;
   }
