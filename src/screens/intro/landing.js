@@ -1,12 +1,15 @@
-import React, {Component} from 'react';
+import React from 'react';
 import {Text, View, SafeAreaView, Image, TouchableOpacity} from 'react-native';
 import Styles from './intro.style.js';
 import LandingImage from '../../assets/Landing.png';
 
-const Landing = () => {
+const Landing = ({navigation}) => {
+  const onPressStartButton = () => {
+    navigation.navigate('Login Page');
+  };
   return (
     <SafeAreaView style={Styles.landingContainer}>
-      <View style={Styles.ttileContainer}>
+      <View style={Styles.titleContainer}>
         <Text style={Styles.titleLanding}>Let's Do</Text>
       </View>
       <View style={Styles.contentContainer}>
@@ -23,7 +26,9 @@ const Landing = () => {
           </Text>
         </View>
         <View style={Styles.buttonContainer}>
-          <TouchableOpacity style={Styles.buttonStart}>
+          <TouchableOpacity
+            style={Styles.buttonStart}
+            onPress={onPressStartButton}>
             <Text style={Styles.buttonText}>GET STARTED</Text>
           </TouchableOpacity>
         </View>

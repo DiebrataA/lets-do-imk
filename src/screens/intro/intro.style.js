@@ -9,7 +9,7 @@ const main = StyleSheet.create({
     backgroundColor: '#9088D4',
     paddingTop: 10,
   },
-  ttileContainer: {
+  titleContainer: {
     height: '5%',
     display: 'flex',
     justifyContent: 'center',
@@ -119,7 +119,7 @@ const main = StyleSheet.create({
     fontFamily: 'Rubik',
     fontWeight: 'bold',
     color: '#706897',
-    letterSpacing,
+    letterSpacing: 24,
   },
   landingDescription: {
     fontSize: 16,

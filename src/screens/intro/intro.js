@@ -9,7 +9,7 @@ const Intro = ({navigation}) => {
   };
   return (
     <SafeAreaView style={Styles.container}>
-      <View style={Styles.ttileContainer}>
+      <View style={Styles.titleContainer}>
         <Text style={Styles.title}>Let's Do</Text>
       </View>
       <View style={Styles.contentContainer}>
