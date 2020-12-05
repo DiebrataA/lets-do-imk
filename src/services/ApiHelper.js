@@ -9,7 +9,6 @@ const requestGetAPI = async (path, token) => {
     },
   };
   let res = await axios.get(BASE_API + path, header);
-  // console.log('requestGetAPI ' + JSON.stringify(res.data));
   return res.data;
 };
 

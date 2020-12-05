@@ -3,24 +3,25 @@ import {Text, TouchableOpacity, View} from 'react-native';
 import ListView from '../../components/common/ListView';
 import {requestGetAPI} from '../../services/ApiHelper';
 
-const CategoryPage = (props) => {
+const CategoryPage = ({route, navigation}) => {
+  const {acc_token} = route.params;
+  console.log('CATEGORY PAGE');
+  console.log(acc_token);
   const [category, setCategory] = useState([]);
 
   useEffect(() => {
-    requestGetAPI('category/', props.jwt).then((res) => {
+    requestGetAPI('category/', acc_token).then((res) => {
       setCategory(res);
     });
-  }, [props.jwt]);
+  }, [acc_token]);
 
   return (
-    <View styles={styles}>
+    <View style={styles}>
       {category.map((item) => (
-        <TouchableOpacity
-          key={item.id}
-          style={styles.container}
-          onPress={() => props.navigation.navigate('TodoPage')}>
-          <Text style={styles.text}>{item.name}</Text>
-        </TouchableOpacity>
+        <ListView
+          item={item}
+          callback={() => navigation.navigate('TodoPage')}
+        />
       ))}
     </View>
   );

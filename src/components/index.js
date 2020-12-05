@@ -1,2 +1,2 @@
-export * from '../screens/auth/Registration';
-export * from '../screens/auth/Login';
+export * from '../screens/auth/RegistrationPage';
+export * from '../screens/auth/LoginPage';

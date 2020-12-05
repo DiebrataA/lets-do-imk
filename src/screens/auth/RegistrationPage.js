@@ -1,29 +1,19 @@
-import React, {Component, Fragment} from 'react';
+import React, {Fragment, useState} from 'react';
 import {View, Text} from 'react-native';
 import {Input, TextLink, Loading, Button} from '../../components/common';
 import axios from 'axios';
 import {BASE_API} from '../../Constant';
 
-class Registration extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      username: '',
-      password: '',
-      first_name: '',
-      last_name: '',
-      error: '',
-      loading: false,
-    };
+const RegistrationPage = ({navigation}) => {
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [first_name, setFirstName] = useState('');
+  const [last_name, setLastName] = useState('');
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
 
-    this.registerUser = this.registerUser.bind(this);
-    this.onRegistrationFail = this.onRegistrationFail.bind(this);
-  }
-
-  registerUser() {
-    const {username, first_name, last_name, password} = this.state;
-
-    this.setState({error: '', loading: true});
+  const registerUser = () => {
+    setLoading(true);
     const payload = JSON.stringify({
       password: password,
       username: username,
@@ -40,44 +30,30 @@ class Registration extends Component {
       .post(BASE_API + 'user/register/', payload, header)
       .then(() => {
         // deviceStorage.saveKey('id_token', response.data.jwt);
-        axios
-          .then((response) => {
-            this.props.newJWT(response.data.access);
-          })
-          .catch((error) => {
-            if (error.response) {
-              console.log(error.response.data);
-            }
-            this.onRegistrationFail();
-          });
+        // axios
+        //   .then((response) => {
+        //     this.props.newJWT(response.data.access);
+        //   })
+        //   .catch((error) => {
+        //     if (error.response) {
+        //       console.log(error.response.data);
+        //     }
+        //     this.onRegistrationFail();
+        //   });
       })
-      .catch((error) => {
-        if (error.response) {
-          console.log(error.response.data);
+      .catch((err) => {
+        if (err.response) {
+          console.log(err.response.data);
         }
-        this.onRegistrationFail();
+        setError('Registration Failed');
+        setLoading(false);
       });
-  }
+  };
 
-  onRegistrationFail() {
-    this.setState({
-      error: 'Registration Failed',
-      loading: false,
-    });
-  }
+  const {container, form, section, errorTextStyle} = styles;
 
-  render() {
-    const {
-      username,
-      first_name,
-      last_name,
-      password,
-      error,
-      loading,
-    } = this.state;
-    const {form, section, errorTextStyle} = styles;
-
-    return (
+  return (
+    <View style={container}>
       <Fragment>
         <View style={form}>
           <View style={section}>
@@ -85,7 +61,7 @@ class Registration extends Component {
               placeholder="username"
               label="Username"
               value={username}
-              onChangeText={(uname) => this.setState({username: uname})}
+              onChangeText={(uname) => setUsername(uname)}
             />
           </View>
 
@@ -94,7 +70,7 @@ class Registration extends Component {
               placeholder="First Name"
               label="First Name"
               value={first_name}
-              onChangeText={(fname) => this.setState({first_name: fname})}
+              onChangeText={(fname) => setFirstName(fname)}
             />
           </View>
 
@@ -103,7 +79,7 @@ class Registration extends Component {
               placeholder="Last Name"
               label="Last Name"
               value={last_name}
-              onChangeText={(lname) => this.setState({last_name: lname})}
+              onChangeText={(lname) => setLastName(lname)}
             />
           </View>
 
@@ -113,27 +89,32 @@ class Registration extends Component {
               placeholder="password"
               label="Password"
               value={password}
-              onChangeText={(pass) => this.setState({password: pass})}
+              onChangeText={(pw) => setPassword(pw)}
             />
           </View>
 
           <Text style={errorTextStyle}>{error}</Text>
 
           {!loading ? (
-            <Button onPress={this.registerUser}>Register</Button>
+            <Button onPress={registerUser}>Register</Button>
           ) : (
             <Loading size={'large'} />
           )}
         </View>
-        <TextLink onPress={this.props.authSwitch}>
+        <TextLink onPress={() => navigation.navigate('LoginPage')}>
           Already have an account? Log in!
         </TextLink>
       </Fragment>
-    );
-  }
-}
+    </View>
+  );
+};
 
 const styles = {
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   form: {
     width: '100%',
     borderTopWidth: 1,
@@ -152,4 +133,4 @@ const styles = {
   },
 };
 
-export {Registration};
+export {RegistrationPage};

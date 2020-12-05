@@ -1,6 +1,11 @@
 import React from 'react';
+import {Text, View} from 'react-native-reanimated';
 
 const TodoPage = ({navigation}) => {
-  return <Text>ASU TODO</Text>;
+  return (
+    <View>
+      <Text>"ASU TODO"</Text>
+    </View>
+  );
 };
 export default TodoPage;

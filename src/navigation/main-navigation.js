@@ -2,9 +2,10 @@ import * as React from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
 import IntroPage from '../screens/intro/intro';
 import LandingPage from '../screens/intro/landing';
-import AuthPage from '../screens/auth/AuthPage';
 import TodoPage from '../screens/home/Todo';
 import CategoryPage from '../screens/home/CategoryPage';
+import {RegistrationPage} from '../screens/auth/RegistrationPage';
+import {LoginPage} from '../screens/auth/LoginPage';
 
 const Stack = createStackNavigator();
 
@@ -29,8 +30,17 @@ export default () => (
       }}
     />
     <Stack.Screen
+      name="RegistrationPage"
+      component={RegistrationPage}
+      options={{
+        title: '',
+        headerTransparent: true,
+        headerStyle: {borderBottomWidth: 0},
+      }}
+    />
+    <Stack.Screen
       name="LoginPage"
-      component={AuthPage}
+      component={LoginPage}
       options={{
         title: '',
         headerTransparent: true,
