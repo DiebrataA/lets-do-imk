@@ -2,6 +2,7 @@ import axios from 'axios';
 import {BASE_API} from '../Constant';
 
 const requestGetAPI = async (path, token) => {
+  console.log(path);
   const header = {
     headers: {
       Authorization: `Bearer ${token}`,

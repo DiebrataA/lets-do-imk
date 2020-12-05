@@ -20,7 +20,13 @@ const CategoryPage = ({route, navigation}) => {
       {category.map((item) => (
         <ListView
           item={item}
-          callback={() => navigation.navigate('TodoPage')}
+          key={item.id}
+          callback={() =>
+            navigation.navigate('TodoPage', {
+              acc_token: acc_token,
+              category_id: item.id,
+            })
+          }
         />
       ))}
     </View>
