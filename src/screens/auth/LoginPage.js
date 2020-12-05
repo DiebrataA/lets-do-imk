@@ -15,6 +15,9 @@ const LoginPage = ({navigation}) => {
     getData('user_acc_token')
       .then((jwt) => console.log(jwt))
       .then((jwt) => {
+        //TODO: pls help fix this, async storage not working
+        jwt =
+          'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjA3MjM0MTE3LCJqdGkiOiJkM2RlMjYzMDIwYTA0NzJhOGM5N2ZlZmM4YTgxZTM3NyIsInVzZXJfaWQiOjMxfQ.ztV5_BoSdJepFVXeDnAAW4XoCwp-_1yN4IWvoI0HhsE';
         if (jwt) {
           navigation.navigate('CategoryPage', {
             acc_token: jwt,
