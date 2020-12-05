@@ -5,7 +5,7 @@ import IntroImage from '../../assets/Intro.png';
 
 const Intro = ({navigation}) => {
   const onPressStartButton = () => {
-    navigation.navigate('Landing Page');
+    navigation.navigate('LandingPage');
   };
   return (
     <SafeAreaView style={Styles.container}>

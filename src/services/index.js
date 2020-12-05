@@ -1,1 +1,1 @@
-export * from './deviceStorage';
+export * from './Storage';

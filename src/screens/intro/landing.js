@@ -5,7 +5,7 @@ import LandingImage from '../../assets/Landing.png';
 
 const Landing = ({navigation}) => {
   const onPressStartButton = () => {
-    navigation.navigate('Login Page');
+    navigation.navigate('RegistrationPage');
   };
   return (
     <SafeAreaView style={Styles.landingContainer}>
