@@ -17,6 +17,7 @@ const styles = StyleSheet.create({
   contentContainer: {
     backgroundColor: 'white',
     padding: 10,
+    marginBottom: 100,
   },
   item: {},
   itemWrap: {

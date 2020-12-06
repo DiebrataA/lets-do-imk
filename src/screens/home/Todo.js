@@ -2,7 +2,11 @@ import React, {useEffect, useState} from 'react';
 import styles from './todo.style';
 import {CheckBox} from 'native-base';
 import {Text, View, FlatList, TouchableHighlight} from 'react-native';
-import {requestGetAPI, requestPutAPI} from '../../services/ApiHelper';
+import {
+  requestGetAPI,
+  requestPostAPI,
+  requestPutAPI,
+} from '../../services/ApiHelper';
 import {handleDate} from '../../utils';
 import AddTodoButton from '../../components/common/AddTodoButton';
 import ModalWrapper from '../../components/common/EditTodoModal';
@@ -63,6 +67,22 @@ const TodoPage = ({route, navigation}) => {
     setData(newData);
   };
 
+  const handleNewTodo = () => {
+    setModalVisible(true);
+    const newTodo = {
+      is_complete: false,
+      deadline: new Date(),
+      content: inputText,
+      category: category_id,
+    };
+    requestPostAPI('notes/', acc_token, newTodo)
+      .then((res) => {
+        data.push(res);
+        setData(data);
+      })
+      .catch((error) => console.log(error.message));
+  };
+
   const renderItem = ({item}) => (
     <TouchableHighlight
       onPress={() => {
@@ -98,7 +118,7 @@ const TodoPage = ({route, navigation}) => {
         data={data}
         keyExtractor={(item) => item.id.toString()}
         renderItem={renderItem}
-        scrollEnabled
+        scrollEnabled={true}
       />
       <ModalWrapper
         isModalVisible={isModalVisible}
@@ -108,7 +128,7 @@ const TodoPage = ({route, navigation}) => {
         handleEditItem={handleEditItem}
         editedItem={editedItem}
       />
-      <AddTodoButton />
+      <AddTodoButton onPress={handleNewTodo} />
     </View>
   );
 };
