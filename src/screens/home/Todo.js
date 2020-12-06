@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {Text, TouchableOpacity, View} from 'react-native';
 import {requestGetAPI} from '../../services/ApiHelper';
 import TodoList from '../../components/TodoList';
+import AddTodoButton from '../../components/common/AddTodo';
 
 const TodoPage = ({route, navigation}) => {
   const {acc_token, category_id} = route.params;
@@ -22,6 +23,7 @@ const TodoPage = ({route, navigation}) => {
       {todo.map((item) => (
         <TodoList key={item.id} item={item} />
       ))}
+      <AddTodoButton />
     </View>
   );
 };
