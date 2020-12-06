@@ -2,7 +2,7 @@ import axios from 'axios';
 import {BASE_API} from '../Constant';
 
 const requestGetAPI = async (path, token) => {
-  console.log(path);
+  console.log('GET ' + path);
   const header = {
     headers: {
       Authorization: `Bearer ${token}`,
@@ -13,4 +13,16 @@ const requestGetAPI = async (path, token) => {
   return res.data;
 };
 
-export {requestGetAPI};
+const requestPutAPI = async (path, token, payload) => {
+  console.log('PUT ' + path);
+  const header = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+      'access-control-allow-origin': '*',
+    },
+  };
+  let res = await axios.put(BASE_API + path, payload, header);
+  return res.data;
+};
+
+export {requestGetAPI, requestPutAPI};

@@ -8,7 +8,6 @@ import {removeData} from '../../services';
 const CategoryPage = ({route, navigation}) => {
   const {acc_token} = route.params;
   console.log('CATEGORY PAGE');
-  console.log(acc_token);
   const [category, setCategory] = useState([]);
 
   useEffect(() => {
@@ -64,7 +63,6 @@ const styles = {
     backgroundColor: 'transparnet',
     borderWidth: 3,
     borderColor: '#9088D4',
-    alignItems: 'center',
     height: 142,
     width: 142,
     borderRadius: 32,
