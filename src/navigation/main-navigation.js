@@ -44,16 +44,18 @@ export default () => (
       options={{
         title: '',
         headerTransparent: true,
-        headerStyle: {borderBottomWidth: 0},
+        headerStyle: {
+          borderBottomWidth: 0,
+        },
       }}
     />
     <Stack.Screen
       name="CategoryPage"
       component={CategoryPage}
       options={{
-        title: '',
-        headerTransparent: true,
+        title: 'Home',
         headerStyle: {borderBottomWidth: 0},
+        headerTitleAlign: 'center',
       }}
     />
     <Stack.Screen

@@ -1,8 +1,10 @@
 import React, {Fragment, useState} from 'react';
-import {View, Text} from 'react-native';
+import {View, Text, KeyboardAvoidingView, SafeAreaView} from 'react-native';
 import {Input, TextLink, Loading, Button} from '../../components/common';
 import axios from 'axios';
 import {BASE_API} from '../../Constant';
+import Styles from './auth.styles';
+import {ScrollView} from 'react-native-gesture-handler';
 
 const RegistrationPage = ({navigation}) => {
   const [username, setUsername] = useState('');
@@ -49,14 +51,20 @@ const RegistrationPage = ({navigation}) => {
         setLoading(false);
       });
   };
-
-  const {container, form, section, errorTextStyle} = styles;
+  const keyboardVerticalOffset = Platform.OS === 'ios' ? 40 : 0;
 
   return (
-    <View style={container}>
+    <KeyboardAvoidingView
+      style={Styles.container}
+      keyboardVerticalOffset={keyboardVerticalOffset}>
+      <View style={Styles.titleContainerRegis}>
+        <Text style={Styles.title}>Hello! Signup to get started</Text>
+      </View>
       <Fragment>
-        <View style={form}>
-          <View style={section}>
+        <ScrollView
+          style={Styles.formRegis}
+          showsVerticalScrollIndicator={false}>
+          <View style={Styles.section}>
             <Input
               placeholder="username"
               label="Username"
@@ -65,7 +73,7 @@ const RegistrationPage = ({navigation}) => {
             />
           </View>
 
-          <View style={section}>
+          <View style={Styles.section}>
             <Input
               placeholder="First Name"
               label="First Name"
@@ -74,7 +82,7 @@ const RegistrationPage = ({navigation}) => {
             />
           </View>
 
-          <View style={section}>
+          <View style={Styles.section}>
             <Input
               placeholder="Last Name"
               label="Last Name"
@@ -83,7 +91,7 @@ const RegistrationPage = ({navigation}) => {
             />
           </View>
 
-          <View style={section}>
+          <View style={Styles.section}>
             <Input
               secureTextEntry
               placeholder="password"
@@ -93,19 +101,24 @@ const RegistrationPage = ({navigation}) => {
             />
           </View>
 
-          <Text style={errorTextStyle}>{error}</Text>
+          <Text style={Styles.errorTextStyle}>{error}</Text>
 
           {!loading ? (
             <Button onPress={registerUser}>Register</Button>
           ) : (
             <Loading size={'large'} />
           )}
-        </View>
-        <TextLink onPress={() => navigation.navigate('LoginPage')}>
-          Already have an account? Log in!
-        </TextLink>
+          <View style={Styles.login}>
+            <Text
+              style={Styles.haveAccount}
+              onPress={() => navigation.navigate('LoginPage')}>
+              Already have an account?
+              <Text style={{color: '#706897'}}> Log in</Text>
+            </Text>
+          </View>
+        </ScrollView>
       </Fragment>
-    </View>
+    </KeyboardAvoidingView>
   );
 };
 

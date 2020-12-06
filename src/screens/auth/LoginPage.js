@@ -1,9 +1,10 @@
 import React, {Fragment, useEffect, useState} from 'react';
-import {View, Text} from 'react-native';
+import {View, Text, KeyboardAvoidingView} from 'react-native';
 import {Input, TextLink, Loading, Button} from '../../components/common';
 import axios from 'axios';
 import {BASE_API} from '../../Constant';
-import {removeData, saveData, getData} from '../../services';
+import {saveData, getData} from '../../services';
+import Styles from './auth.styles';
 
 const LoginPage = ({navigation}) => {
   const [username, setUsername] = useState('');
@@ -17,7 +18,7 @@ const LoginPage = ({navigation}) => {
       .then((jwt) => {
         //TODO: pls help fix this, async storage not working
         jwt =
-          'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjA3MjM0MTE3LCJqdGkiOiJkM2RlMjYzMDIwYTA0NzJhOGM5N2ZlZmM4YTgxZTM3NyIsInVzZXJfaWQiOjMxfQ.ztV5_BoSdJepFVXeDnAAW4XoCwp-_1yN4IWvoI0HhsE';
+          'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjA3MzQ1Njc5LCJqdGkiOiJmMDkzYjE4ODFmNzM0NGI2OGJkZjQ1MDEyZDEwYzM5MSIsInVzZXJfaWQiOjMxfQ.yjtI0mdU3nwp_7viwqwITZK6HXuaVVwjUFMlBXkaiy8';
         if (jwt) {
           navigation.navigate('CategoryPage', {
             acc_token: jwt,
@@ -54,32 +55,33 @@ const LoginPage = ({navigation}) => {
         setError('Login Failed: ' + e.message);
       });
   };
-  const {container, form, section, errorTextStyle} = styles;
+  // const {container, form, section, errorTextStyle} = styles;
 
   return (
-    <View style={container}>
+    <KeyboardAvoidingView behavior="height" style={Styles.container}>
+      <View style={Styles.titleContainer}>
+        <Text style={Styles.title}>Hello Again! Welcome back</Text>
+      </View>
       <Fragment>
-        <View style={form}>
-          <View style={section}>
+        <View style={Styles.form}>
+          <View style={Styles.section}>
             <Input
-              placeholder="username"
-              label="Username"
+              placeholder="Username"
               value={username}
               onChangeText={(uname) => setUsername(uname)}
             />
           </View>
 
-          <View style={section}>
+          <View style={Styles.section}>
             <Input
               secureTextEntry
-              placeholder="password"
-              label="Password"
+              placeholder="Password"
               value={password}
               onChangeText={(pass) => setPassword(pass)}
             />
           </View>
 
-          <Text style={errorTextStyle}>{error}</Text>
+          <Text style={Styles.errorTextStyle}>{error}</Text>
 
           {!loading ? (
             <Button onPress={loginUser}>Login</Button>
@@ -87,44 +89,18 @@ const LoginPage = ({navigation}) => {
             <Loading size={'large'} />
           )}
         </View>
-        <TextLink onPress={() => navigation.navigate('RegistrationPage')}>
-          Don't have an account? Register!
-        </TextLink>
-        {/*TODO: FIX THIS BARBARIC LOGOUT*/}
-        <TextLink
-          onPress={() => {
-            removeData('user_access_token');
-            navigation.navigate('IntroPage');
-          }}>
-          Logout
-        </TextLink>
-      </Fragment>
-    </View>
-  );
-};
 
-const styles = {
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  form: {
-    width: '100%',
-    borderTopWidth: 1,
-    borderColor: '#ddd',
-  },
-  section: {
-    flexDirection: 'row',
-    borderBottomWidth: 1,
-    backgroundColor: '#fff',
-    borderColor: '#ddd',
-  },
-  errorTextStyle: {
-    alignSelf: 'center',
-    fontSize: 18,
-    color: 'red',
-  },
+        {/*TODO: FIX THIS BARBARIC LOGOUT*/}
+      </Fragment>
+      <View style={Styles.signUpContainer}>
+        <Text
+          style={Styles.signUp}
+          onPress={() => navigation.navigate('RegistrationPage')}>
+          SIGN UP
+        </Text>
+      </View>
+    </KeyboardAvoidingView>
+  );
 };
 
 export {LoginPage};
