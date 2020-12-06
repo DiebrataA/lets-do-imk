@@ -15,16 +15,19 @@ export default ListView;
 
 const styles = StyleSheet.create({
   container: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
     padding: 10,
-    marginTop: 3,
-    backgroundColor: '#d9f9b1',
+    margin: 15,
+    backgroundColor: '#9088D4',
     alignItems: 'center',
     height: 142,
     width: 142,
+    borderRadius: 32,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   text: {
-    color: '#4f603c',
+    color: '#fff',
+    fontSize: 16,
+    fontWeight: 'bold',
   },
 });

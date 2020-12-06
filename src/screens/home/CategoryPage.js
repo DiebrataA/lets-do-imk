@@ -1,8 +1,8 @@
 import React, {useEffect, useState} from 'react';
-import {Text, TouchableOpacity, View, FlatList} from 'react-native';
+import {Text, TouchableOpacity, View} from 'react-native';
 import ListView from '../../components/common/ListView';
 import {requestGetAPI} from '../../services/ApiHelper';
-import {TextLink} from '../../components/common';
+import {TextLink, Input} from '../../components/common';
 import {removeData} from '../../services';
 
 const CategoryPage = ({route, navigation}) => {
@@ -18,19 +18,11 @@ const CategoryPage = ({route, navigation}) => {
   }, [acc_token]);
 
   return (
-    <View style={styles}>
+    <View style={styles.container}>
+      <View style={styles.section}>
+        <Input placeholder="search task" />
+      </View>
       {category.map((item) => (
-        // <View key={item.id}>
-        //   <Text
-        //     onPress={() =>
-        //       navigation.navigate('TodoPage', {
-        //         acc_token: acc_token,
-        //         category_id: item.id,
-        //       })
-        //     }>
-        //     {item.name}
-        //   </Text>
-        // </View>
         <ListView
           item={item}
           key={item.id}
@@ -42,7 +34,9 @@ const CategoryPage = ({route, navigation}) => {
           }
         />
       ))}
-
+      <TouchableOpacity style={styles.addButton}>
+        <Text style={styles.addIcon}>+</Text>
+      </TouchableOpacity>
       <TextLink
         onPress={() => {
           removeData('user_access_token');
@@ -58,7 +52,35 @@ export default CategoryPage;
 const styles = {
   container: {
     flex: 1,
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    marginHorizontal: 33,
+  },
+  addButton: {
+    padding: 10,
+    margin: 15,
+    backgroundColor: 'transparnet',
+    borderWidth: 3,
+    borderColor: '#9088D4',
+    alignItems: 'center',
+    height: 142,
+    width: 142,
+    borderRadius: 32,
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  addIcon: {
+    fontSize: 60,
+    color: '#9088D4',
+  },
+  section: {
+    flexDirection: 'row',
+    backgroundColor: 'rgba(144, 136, 212, 0.2)',
+    marginBottom: 16,
+    fontSize: 16,
+    padding: 10,
+    borderRadius: 16,
   },
 };

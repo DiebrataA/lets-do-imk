@@ -54,8 +54,14 @@ export default () => (
       component={CategoryPage}
       options={{
         title: 'Home',
-        headerStyle: {borderBottomWidth: 0},
+        headerStyle: {
+          borderBottomWidth: 0,
+          height: 120,
+          backgroundColor: 'transparent',
+          elevation: 0,
+        },
         headerTitleAlign: 'center',
+        headerTitleStyle: {fontSize: 24},
       }}
     />
     <Stack.Screen

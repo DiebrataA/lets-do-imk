@@ -1,6 +1,6 @@
 import React, {Fragment, useEffect, useState} from 'react';
 import {View, Text, KeyboardAvoidingView} from 'react-native';
-import {Input, TextLink, Loading, Button} from '../../components/common';
+import {Input, Loading, Button} from '../../components/common';
 import axios from 'axios';
 import {BASE_API} from '../../Constant';
 import {saveData, getData} from '../../services';

@@ -1,9 +1,8 @@
 import React from 'react';
-import {View, TextInput, Text} from 'react-native';
+import {View, TextInput} from 'react-native';
 import {Icon} from 'react-native-elements';
 
-const Input = ({
-  icon,
+const Search = ({
   value,
   onChangeText,
   placeholder,
@@ -15,7 +14,7 @@ const Input = ({
 
   return (
     <View style={containerStyle}>
-      <Icon name={icon} />
+      <Icon name="add-outline" />
       <TextInput
         secureTextEntry={secureTextEntry}
         placeholder={placeholder}
@@ -53,4 +52,4 @@ const styles = {
   },
 };
 
-export {Input};
+export {Search};
