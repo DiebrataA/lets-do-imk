@@ -105,7 +105,13 @@ const TodoPage = ({route, navigation}) => {
               }}
             />
           </View>
-          <Text style={styles.text}> {item.content} </Text>
+          <Text
+            style={[
+              styles.text,
+              {textDecorationLine: item.is_complete ? 'line-through' : 'none'},
+            ]}>
+            {item.content}
+          </Text>
         </View>
         <Text style={[styles.date]}>{handleDate(item.deadline)}</Text>
       </View>
