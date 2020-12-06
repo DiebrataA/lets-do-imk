@@ -15,6 +15,7 @@ const TodoPage = ({route, navigation}) => {
   const {acc_token, category_id, category_name} = route.params;
   const [isModalVisible, setModalVisible] = useState(false);
   const [inputText, setInputText] = useState('');
+  const [deadline, setDeadline] = useState(new Date());
   const [editedItem, setEditedItem] = useState(0);
   const [data, setData] = useState([]);
 
@@ -25,6 +26,12 @@ const TodoPage = ({route, navigation}) => {
       })
       .catch((e) => console.log(e.response));
   }, [acc_token, category_id]);
+
+  useEffect(() => {
+    data.sort((a, b) => {
+      return a.is_complete - b.is_complete;
+    });
+  });
 
   const handleCheckBox = (edited) => {
     const newData = data.map((item) => {
@@ -51,9 +58,10 @@ const TodoPage = ({route, navigation}) => {
     const newData = data.map((item) => {
       if (item.id === edited) {
         item.content = inputText;
+        item.deadline = deadline;
         const payload = {
           is_complete: item.is_complete,
-          deadline: item.deadline,
+          deadline: deadline,
           content: item.content,
           category: category_id,
         };
@@ -69,9 +77,10 @@ const TodoPage = ({route, navigation}) => {
 
   const handleNewTodo = () => {
     setModalVisible(true);
+    setInputText('');
     const newTodo = {
       is_complete: false,
-      deadline: new Date(),
+      deadline: deadline,
       content: inputText,
       category: category_id,
     };
@@ -102,7 +111,13 @@ const TodoPage = ({route, navigation}) => {
               }}
             />
           </View>
-          <Text style={styles.text}> {item.content} </Text>
+          <Text
+            style={[
+              styles.text,
+              {textDecorationLine: item.is_complete ? 'line-through' : 'none'},
+            ]}>
+            {item.content}
+          </Text>
         </View>
         <Text style={[styles.date]}>{handleDate(item.deadline)}</Text>
       </View>
@@ -112,7 +127,7 @@ const TodoPage = ({route, navigation}) => {
   return (
     <View style={styles.contentContainer}>
       <View style={styles.header}>
-        <Text style={styles.headerText}> {category_name} </Text>
+        <Text style={styles.headerText}> {category_name}</Text>
       </View>
       <FlatList
         data={data}
@@ -127,6 +142,8 @@ const TodoPage = ({route, navigation}) => {
         inputText={inputText}
         handleEditItem={handleEditItem}
         editedItem={editedItem}
+        deadline={deadline}
+        setChangeDate={setDeadline}
       />
       <AddTodoButton onPress={handleNewTodo} />
     </View>
