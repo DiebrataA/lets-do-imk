@@ -12,7 +12,6 @@ import {
 import {requestGetAPI, requestPutAPI} from '../../services/ApiHelper';
 import {handleDate} from '../../utils';
 import AddTodoButton from '../../components/common/AddTodoButton';
-import {ScrollView} from 'react-native-gesture-handler';
 
 const TodoPage = ({route, navigation}) => {
   const {acc_token, category_id, category_name} = route.params;
@@ -29,6 +28,28 @@ const TodoPage = ({route, navigation}) => {
       .catch((e) => console.log(e.response));
   }, [acc_token, category_id]);
 
+  const handleCheckBox = (edited) => {
+    console.log(edited);
+    const newData = data.map((item) => {
+      if (item.id === edited) {
+        item.is_complete = !item.is_complete;
+        const payload = {
+          is_complete: !item.is_complete,
+          deadline: item.deadline,
+          content: item.content,
+          category: category_id,
+        };
+        requestPutAPI(`notes/${item.id}/`, acc_token, payload).catch((error) =>
+          console.log(error.message),
+        );
+
+        return item;
+      }
+      return item;
+    });
+    setData(newData);
+  };
+
   const handleEditItem = (edited) => {
     const newData = data.map((item) => {
       if (item.id === edited) {
@@ -42,7 +63,6 @@ const TodoPage = ({route, navigation}) => {
         requestPutAPI(`notes/${item.id}/`, acc_token, payload).catch((error) =>
           console.log(error.message),
         );
-
         return item;
       }
       return item;
@@ -62,9 +82,11 @@ const TodoPage = ({route, navigation}) => {
         <View style={styles.itemWrap}>
           <View style={styles.marginLeft}>
             <CheckBox
-              checked={data.is_complete}
+              checked={item.is_complete}
               style={[{borderRadius: 10}]}
-              onPress={() => alert('hello')}
+              onPress={() => {
+                handleCheckBox(item.id);
+              }}
             />
           </View>
           <Text style={styles.text}> {item.content} </Text>
@@ -76,6 +98,7 @@ const TodoPage = ({route, navigation}) => {
 
   return (
     <View style={styles.contentContainer}>
+      {console.log('DATE RENDERED AGAIN')}
       <View style={styles.header}>
         <Text style={styles.headerText}> {category_name} </Text>
       </View>
