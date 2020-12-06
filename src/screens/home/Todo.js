@@ -1,17 +1,11 @@
 import React, {useEffect, useState} from 'react';
 import styles from './todo.style';
 import {CheckBox} from 'native-base';
-import {
-  Text,
-  View,
-  FlatList,
-  TextInput,
-  Modal,
-  TouchableHighlight,
-} from 'react-native';
+import {Text, View, FlatList, TouchableHighlight} from 'react-native';
 import {requestGetAPI, requestPutAPI} from '../../services/ApiHelper';
 import {handleDate} from '../../utils';
 import AddTodoButton from '../../components/common/AddTodoButton';
+import ModalWrapper from '../../components/common/EditTodoModal';
 
 const TodoPage = ({route, navigation}) => {
   const {acc_token, category_id, category_name} = route.params;
@@ -29,7 +23,6 @@ const TodoPage = ({route, navigation}) => {
   }, [acc_token, category_id]);
 
   const handleCheckBox = (edited) => {
-    console.log(edited);
     const newData = data.map((item) => {
       if (item.id === edited) {
         item.is_complete = !item.is_complete;
@@ -98,7 +91,6 @@ const TodoPage = ({route, navigation}) => {
 
   return (
     <View style={styles.contentContainer}>
-      {console.log('DATE RENDERED AGAIN')}
       <View style={styles.header}>
         <Text style={styles.headerText}> {category_name} </Text>
       </View>
@@ -108,34 +100,14 @@ const TodoPage = ({route, navigation}) => {
         renderItem={renderItem}
         scrollEnabled
       />
-      <Modal
-        animationType="fade"
-        visible={isModalVisible}
-        onRequestClose={() => setModalVisible(false)}>
-        <View style={styles.modalView}>
-          <Text style={styles.text}>Change text:</Text>
-          <TextInput
-            style={styles.textInput}
-            onChangeText={(text) => {
-              setInputText(text);
-              console.log('state ', inputText);
-            }}
-            defaultValue={inputText}
-            editable={true}
-            multiline={false}
-            maxLength={200}
-          />
-          <TouchableHighlight
-            onPress={() => {
-              handleEditItem(editedItem);
-              setModalVisible(false);
-            }}
-            style={[styles.touchableHighlight]}
-            underlayColor={'#f1f1f1'}>
-            <Text style={styles.text}>Save</Text>
-          </TouchableHighlight>
-        </View>
-      </Modal>
+      <ModalWrapper
+        isModalVisible={isModalVisible}
+        setModalVisible={setModalVisible}
+        setInputText={setInputText}
+        inputText={inputText}
+        handleEditItem={handleEditItem}
+        editedItem={editedItem}
+      />
       <AddTodoButton />
     </View>
   );
