@@ -9,8 +9,9 @@ import {
   Modal,
   TouchableHighlight,
 } from 'react-native';
-import {requestGetAPI} from '../../services/ApiHelper';
+import {requestGetAPI, requestPutAPI} from '../../services/ApiHelper';
 import {handleDate} from '../../utils';
+import AddTodoButton from '../../components/common/AddTodoButton';
 import {ScrollView} from 'react-native-gesture-handler';
 
 const TodoPage = ({route, navigation}) => {
@@ -32,6 +33,16 @@ const TodoPage = ({route, navigation}) => {
     const newData = data.map((item) => {
       if (item.id === edited) {
         item.content = inputText;
+        const payload = {
+          is_complete: item.is_complete,
+          deadline: item.deadline,
+          content: item.content,
+          category: category_id,
+        };
+        requestPutAPI(`notes/${item.id}/`, acc_token, payload).catch((error) =>
+          console.log(error.message),
+        );
+
         return item;
       }
       return item;
@@ -48,7 +59,7 @@ const TodoPage = ({route, navigation}) => {
       }}
       underlayColor={'#f1f1f1'}>
       <View>
-        <View style={styles.itemwrap}>
+        <View style={styles.itemWrap}>
           <View style={styles.marginLeft}>
             <CheckBox
               checked={data.is_complete}
@@ -102,6 +113,7 @@ const TodoPage = ({route, navigation}) => {
           </TouchableHighlight>
         </View>
       </Modal>
+      <AddTodoButton />
     </View>
   );
 };

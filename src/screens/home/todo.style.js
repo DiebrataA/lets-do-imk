@@ -2,13 +2,15 @@ import {StyleSheet} from 'react-native';
 
 const styles = StyleSheet.create({
   header: {
-    height: 120,
+    height: 90,
     backgroundColor: 'transparent',
     alignItems: 'center',
     justifyContent: 'center',
   },
   headerText: {
     fontSize: 24,
+    marginTop: 10,
+    marginBottom: 20,
     fontWeight: 'bold',
     color: '#252A34',
   },
@@ -17,7 +19,7 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   item: {},
-  itemwrap: {
+  itemWrap: {
     flexDirection: 'row',
     alignItems: 'center',
   },
