@@ -15,10 +15,14 @@ export default ListView;
 
 const styles = StyleSheet.create({
   container: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
     padding: 10,
     marginTop: 3,
     backgroundColor: '#d9f9b1',
     alignItems: 'center',
+    height: 142,
+    width: 142,
   },
   text: {
     color: '#4f603c',

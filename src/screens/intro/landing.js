@@ -19,7 +19,7 @@ const Landing = ({navigation}) => {
         <View style={Styles.weDoContainer}>
           <Text style={Styles.weDo}>What we do</Text>
         </View>
-        <View style={Styles.descriptionContainer}>
+        <View style={Styles.descriptionContainerLanding}>
           <Text style={Styles.landingDescription}>
             Thousand of people are using Let’s Do for make To Do List for better
             productivity
@@ -27,10 +27,18 @@ const Landing = ({navigation}) => {
         </View>
         <View style={Styles.buttonContainer}>
           <TouchableOpacity
-            style={Styles.buttonStart}
+            style={Styles.buttonSignUp}
             onPress={onPressStartButton}>
-            <Text style={Styles.buttonText}>GET STARTED</Text>
+            <Text style={Styles.buttonTextSignup}>SIGN UP</Text>
           </TouchableOpacity>
+          <Text style={Styles.haveAccount}>
+            ALready Have an Account ?{' '}
+            <Text
+              style={{color: '#706897'}}
+              onPress={() => navigation.navigate('LoginPage')}>
+              LOG IN
+            </Text>
+          </Text>
         </View>
       </View>
     </SafeAreaView>

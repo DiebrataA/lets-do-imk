@@ -83,7 +83,7 @@ const main = StyleSheet.create({
   buttonText: {
     textAlign: 'center',
     fontFamily: 'Roboto',
-    letterSpacing: 1.6,
+    letterSpacing: 0.24,
     color: '#706897',
   },
 
@@ -119,7 +119,7 @@ const main = StyleSheet.create({
     fontFamily: 'Rubik',
     fontWeight: 'bold',
     color: '#706897',
-    letterSpacing: 24,
+    letterSpacing: 0.24,
   },
   landingDescription: {
     fontSize: 16,
@@ -130,6 +130,32 @@ const main = StyleSheet.create({
     paddingVertical: 10,
     letterSpacing: 0.24,
     lineHeight: 24,
+  },
+  descriptionContainerLanding: {
+    width: '74%',
+    alignSelf: 'center',
+  },
+  buttonSignUp: {
+    backgroundColor: '#9088D4',
+    paddingVertical: 20,
+    paddingHorizontal: 20,
+    width: 263,
+    alignSelf: 'center',
+    borderRadius: 32,
+  },
+  buttonTextSignup: {
+    textAlign: 'center',
+    fontFamily: 'Roboto',
+    letterSpacing: 0.24,
+    color: 'white',
+  },
+  haveAccount: {
+    letterSpacing: 0.5,
+    fontSize: 14,
+    textTransform: 'uppercase',
+    color: '#BDBDBD',
+    textAlign: 'center',
+    marginTop: 16,
   },
 });
 export default main;

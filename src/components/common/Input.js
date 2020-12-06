@@ -10,14 +10,14 @@ const Input = ({
   multiline,
   numberOfLines,
 }) => {
-  const {inputStyle, labelStyle, containerStyle} = styles;
+  const {inputStyle, containerStyle} = styles;
 
   return (
     <View style={containerStyle}>
-      <Text style={labelStyle}>{label}</Text>
       <TextInput
         secureTextEntry={secureTextEntry}
         placeholder={placeholder}
+        placeholderTextColor="#706897"
         value={value}
         onChangeText={onChangeText}
         autoCorrect={false}
@@ -42,7 +42,7 @@ const styles = {
     flex: 1,
   },
   inputStyle: {
-    color: '#000',
+    color: '#706897',
     paddingRight: 5,
     paddingLeft: 5,
     fontSize: 18,
