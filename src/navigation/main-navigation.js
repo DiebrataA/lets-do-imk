@@ -70,7 +70,12 @@ export default () => (
       options={{
         title: '',
         headerTransparent: true,
-        headerStyle: {borderBottomWidth: 0},
+        headerStyle: {
+          borderBottomWidth: 0,
+          height: 120,
+          backgroundColor: 'transparent',
+          elevation: 0,
+        },
       }}
     />
   </Stack.Navigator>

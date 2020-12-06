@@ -2,23 +2,23 @@ import {StyleSheet} from 'react-native';
 
 const styles = StyleSheet.create({
   header: {
-    height: 60,
-    backgroundColor: 'orange',
+    height: 120,
+    backgroundColor: 'transparent',
     alignItems: 'center',
     justifyContent: 'center',
   },
   headerText: {
-    fontSize: 20,
+    fontSize: 24,
     fontWeight: 'bold',
-    color: 'white',
+    color: '#252A34',
   },
   contentContainer: {
     backgroundColor: 'white',
+    padding: 10,
   },
-  item: {
+  item: {},
+  itemwrap: {
     flexDirection: 'row',
-    borderBottomWidth: 1,
-    borderBottomColor: 'grey',
     alignItems: 'center',
   },
   marginLeft: {
@@ -32,21 +32,20 @@ const styles = StyleSheet.create({
     borderRadius: 3,
   },
   text: {
-    marginVertical: 30,
-    fontSize: 20,
-    fontWeight: 'bold',
-    marginLeft: 10,
+    marginVertical: 15,
+    fontSize: 14,
+    marginLeft: 20,
   },
   date: {
-    marginTop: 8,
-    paddingTop: 15,
-    paddingBottom: 15,
-    marginLeft: 0,
-    marginRight: 35,
-    backgroundColor: '#00BCD4',
+    padding: 5,
+    backgroundColor: '#9088D4',
     borderRadius: 45,
     borderWidth: 0.5,
-    borderColor: '#fff',
+    color: '#fff',
+    fontSize: 10,
+    marginLeft: 45,
+    width: '35%',
+    textAlign: 'center',
   },
 
   textInput: {

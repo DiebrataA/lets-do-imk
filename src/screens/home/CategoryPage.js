@@ -30,6 +30,7 @@ const CategoryPage = ({route, navigation}) => {
             navigation.navigate('TodoPage', {
               acc_token: acc_token,
               category_id: item.id,
+              category_name: item.name,
             })
           }
         />

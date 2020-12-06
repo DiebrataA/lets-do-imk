@@ -11,9 +11,10 @@ import {
 } from 'react-native';
 import {requestGetAPI} from '../../services/ApiHelper';
 import {handleDate} from '../../utils';
+import {ScrollView} from 'react-native-gesture-handler';
 
 const TodoPage = ({route, navigation}) => {
-  const {acc_token, category_id} = route.params;
+  const {acc_token, category_id, category_name} = route.params;
   const [isModalVisible, setModalVisible] = useState(false);
   const [inputText, setInputText] = useState('');
   const [editedItem, setEditedItem] = useState(0);
@@ -46,15 +47,17 @@ const TodoPage = ({route, navigation}) => {
         setEditedItem(item.id);
       }}
       underlayColor={'#f1f1f1'}>
-      <View style={styles.item}>
-        <View style={styles.marginLeft}>
-          <CheckBox
-            checked={data.is_complete}
-            style={[{borderRadius: 10}]}
-            onPress={() => alert('asu')}
-          />
+      <View>
+        <View style={styles.itemwrap}>
+          <View style={styles.marginLeft}>
+            <CheckBox
+              checked={data.is_complete}
+              style={[{borderRadius: 10}]}
+              onPress={() => alert('hello')}
+            />
+          </View>
+          <Text style={styles.text}> {item.content} </Text>
         </View>
-        <Text style={styles.text}> {item.content} </Text>
         <Text style={[styles.date]}>{handleDate(item.deadline)}</Text>
       </View>
     </TouchableHighlight>
@@ -63,12 +66,13 @@ const TodoPage = ({route, navigation}) => {
   return (
     <View style={styles.contentContainer}>
       <View style={styles.header}>
-        <Text style={styles.headerText}> List Header </Text>
+        <Text style={styles.headerText}> {category_name} </Text>
       </View>
       <FlatList
         data={data}
         keyExtractor={(item) => item.id.toString()}
         renderItem={renderItem}
+        scrollEnabled
       />
       <Modal
         animationType="fade"
