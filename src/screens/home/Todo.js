@@ -27,6 +27,12 @@ const TodoPage = ({route, navigation}) => {
       .catch((e) => console.log(e.response));
   }, [acc_token, category_id]);
 
+  useEffect(() => {
+    data.sort((a, b) => {
+      return a.is_complete - b.is_complete;
+    });
+  });
+
   const handleCheckBox = (edited) => {
     const newData = data.map((item) => {
       if (item.id === edited) {
