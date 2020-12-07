@@ -5,11 +5,11 @@ import {
   Text,
   View,
   FlatList,
-  ScrollView,
   TouchableHighlight,
   SafeAreaView,
 } from 'react-native';
 import {
+  requestDeleteAPI,
   requestGetAPI,
   requestPostAPI,
   requestPutAPI,
@@ -26,6 +26,7 @@ const TodoPage = ({route, navigation}) => {
   const [deadline, setDeadline] = useState(new Date());
   const [editedItem, setEditedItem] = useState(0);
   const [data, setData] = useState([]);
+  const [isNew, setIsNew] = useState(false);
   const [isCompleteTask, setIsCompleteTask] = useState(false);
 
   useEffect(() => {
@@ -36,11 +37,14 @@ const TodoPage = ({route, navigation}) => {
       .catch((e) => console.log(e.response));
   }, [acc_token, category_id]);
 
-  useEffect(() => {
-    data.sort((a, b) => {
-      return a.is_complete - b.is_complete;
-    });
-  });
+  const handleDelete = (edited) => {
+    const newData = data.filter((item) => item.id !== edited);
+    requestDeleteAPI(`notes/${edited}/`, acc_token).catch((error) =>
+      console.log(error.message),
+    );
+    setModalVisible(false);
+    setData(newData);
+  };
 
   const handleCheckBox = (edited) => {
     const newData = data.map((item) => {
@@ -60,7 +64,10 @@ const TodoPage = ({route, navigation}) => {
       }
       return item;
     });
-    setData(newData);
+    const sorted = newData.sort((a, b) => {
+      return a.is_complete - b.is_complete;
+    });
+    setData(sorted);
   };
 
   const handleEditItem = (edited) => {
@@ -87,18 +94,28 @@ const TodoPage = ({route, navigation}) => {
   const handleNewTodo = () => {
     setModalVisible(true);
     setInputText('');
-    const newTodo = {
+    setIsNew(true);
+  };
+
+  const actuallyPostNewTodo = () => {
+    const id = Math.floor(Math.random() * 100) + 1;
+    const ntd = {
       is_complete: false,
-      deadline: deadline,
+      deadline: deadline ? deadline : new Date(),
       content: inputText,
       category: category_id,
     };
-    requestPostAPI('notes/', acc_token, newTodo)
+    console.log(ntd);
+    requestPostAPI('notes/', acc_token, ntd)
       .then((res) => {
         data.push(res);
-        setData(data);
+        const newData = data.filter((item) => item.id !== id);
+        setData(newData);
       })
       .catch((error) => console.log(error.message));
+    ntd.id = id;
+    data.push(ntd);
+    setData(data);
   };
 
   const renderItem = ({item}) => (
@@ -151,9 +168,13 @@ const TodoPage = ({route, navigation}) => {
           setInputText={setInputText}
           inputText={inputText}
           handleEditItem={handleEditItem}
+          deleteThis={() => handleDelete(editedItem)}
           editedItem={editedItem}
           deadline={deadline}
           setChangeDate={setDeadline}
+          isNew={isNew}
+          setIsNew={setIsNew}
+          handleNewTodo={actuallyPostNewTodo}
         />
       </View>
 

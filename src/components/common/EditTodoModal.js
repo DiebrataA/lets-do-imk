@@ -4,14 +4,12 @@ import {
   TextInput,
   TouchableHighlight,
   View,
-  Image,
   TouchableOpacity,
 } from 'react-native';
 import styles from '../../screens/home/todo.style';
 import React, {useState} from 'react';
 import DateTimePicker from '@react-native-community/datetimepicker';
-import {Button} from '../common/Button';
-import Cal from '../../assets/Calendar.svg';
+import {Button} from 'react-native-elements';
 import {Icon} from 'react-native-elements';
 
 const ModalWrapper = (props) => {
@@ -25,7 +23,10 @@ const ModalWrapper = (props) => {
       visible={props.isModalVisible}
       onRequestClose={() => props.setModalVisible(false)}>
       <View style={styles.modalView}>
-        <Text style={styles.text}>Create Todo:</Text>
+        <Button type={'Outline'} onPress={props.deleteThis} title="❌" />
+        <Text style={styles.text}>
+          {props.isNew ? 'Create Todo' : 'Edit Todo'}
+        </Text>
         <View />
         {show && (
           <DateTimePicker
@@ -57,7 +58,13 @@ const ModalWrapper = (props) => {
 
         <TouchableHighlight
           onPress={() => {
-            props.handleEditItem(props.editedItem);
+            if (!props.isNew) {
+              props.handleEditItem(props.editedItem);
+            } else {
+              props.setIsNew(false);
+              props.handleNewTodo();
+            }
+            props.setIsNew(false);
             props.setModalVisible(false);
           }}
           style={[styles.touchableHighlight]}
