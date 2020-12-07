@@ -1,10 +1,11 @@
 import React, {Fragment, useState} from 'react';
-import {View, Text, KeyboardAvoidingView, SafeAreaView} from 'react-native';
-import {Input, TextLink, Loading, Button} from '../../components/common';
+import {View, Text, KeyboardAvoidingView} from 'react-native';
+import {Input, Loading, Button} from '../../components/common';
 import axios from 'axios';
 import {BASE_API} from '../../Constant';
 import Styles from './auth.styles';
 import {ScrollView} from 'react-native-gesture-handler';
+import {saveData} from '../../services';
 
 const RegistrationPage = ({navigation}) => {
   const [username, setUsername] = useState('');
@@ -31,17 +32,28 @@ const RegistrationPage = ({navigation}) => {
     axios
       .post(BASE_API + 'user/register/', payload, header)
       .then(() => {
-        // deviceStorage.saveKey('id_token', response.data.jwt);
-        // axios
-        //   .then((response) => {
-        //     this.props.newJWT(response.data.access);
-        //   })
-        //   .catch((error) => {
-        //     if (error.response) {
-        //       console.log(error.response.data);
-        //     }
-        //     this.onRegistrationFail();
-        //   });
+        //TODO: fix this in the future
+        axios
+          .post(
+            BASE_API + 'auth/token/',
+            {username: username, password: password},
+            header,
+          )
+          .then((response) => {
+            const acc = response.data.access;
+            saveData('user_access_token', acc).catch((e) =>
+              e ? console.log(e.response) : console.log(e),
+            );
+            navigation.navigate('CategoryPage', {
+              acc_token: acc,
+            });
+          })
+          .catch((e) => {
+            console.log(BASE_API + 'auth/token/');
+            console.log(e.status);
+            setLoading(false);
+            setError('Login Failed: ' + e.message);
+          });
       })
       .catch((err) => {
         if (err.response) {
