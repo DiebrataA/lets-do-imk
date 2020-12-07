@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import styles from './todo.style';
 import {CheckBox} from 'native-base';
+import {Text, View, FlatList, TouchableHighlight} from 'react-native';
 import {
   Text,
   View,
@@ -10,15 +11,21 @@ import {
   TouchableHighlight,
   SafeAreaView,
 } from 'react-native';
-import {requestGetAPI, requestPutAPI} from '../../services/ApiHelper';
+import {
+  requestGetAPI,
+  requestPostAPI,
+  requestPutAPI,
+} from '../../services/ApiHelper';
+
 import {handleDate} from '../../utils';
 import AddTodoButton from '../../components/common/AddTodoButton';
-import {ScrollView} from 'react-native-gesture-handler';
+import ModalWrapper from '../../components/common/EditTodoModal';
 
 const TodoPage = ({route, navigation}) => {
   const {acc_token, category_id, category_name} = route.params;
   const [isModalVisible, setModalVisible] = useState(false);
   const [inputText, setInputText] = useState('');
+  const [deadline, setDeadline] = useState(new Date());
   const [editedItem, setEditedItem] = useState(0);
   const [data, setData] = useState([]);
   const [isCompleteTask, setIsCompleteTask] = useState(false);
@@ -31,12 +38,18 @@ const TodoPage = ({route, navigation}) => {
       .catch((e) => console.log(e.response));
   }, [acc_token, category_id]);
 
-  const handleEditItem = (edited) => {
+  useEffect(() => {
+    data.sort((a, b) => {
+      return a.is_complete - b.is_complete;
+    });
+  });
+
+  const handleCheckBox = (edited) => {
     const newData = data.map((item) => {
       if (item.id === edited) {
-        item.content = inputText;
+        item.is_complete = !item.is_complete;
         const payload = {
-          is_complete: item.is_complete,
+          is_complete: !item.is_complete,
           deadline: item.deadline,
           content: item.content,
           category: category_id,
@@ -52,9 +65,42 @@ const TodoPage = ({route, navigation}) => {
     setData(newData);
   };
 
-  const isComplete = () => {
-    setIsCompleteTask(data.is_complete);
-    data.is_complete == true ? alert('true') : alert('false');
+  const handleEditItem = (edited) => {
+    const newData = data.map((item) => {
+      if (item.id === edited) {
+        item.content = inputText;
+        item.deadline = deadline;
+        const payload = {
+          is_complete: item.is_complete,
+          deadline: deadline,
+          content: item.content,
+          category: category_id,
+        };
+        requestPutAPI(`notes/${item.id}/`, acc_token, payload).catch((error) =>
+          console.log(error.message),
+        );
+        return item;
+      }
+      return item;
+    });
+    setData(newData);
+  };
+
+  const handleNewTodo = () => {
+    setModalVisible(true);
+    setInputText('');
+    const newTodo = {
+      is_complete: false,
+      deadline: deadline,
+      content: inputText,
+      category: category_id,
+    };
+    requestPostAPI('notes/', acc_token, newTodo)
+      .then((res) => {
+        data.push(res);
+        setData(data);
+      })
+      .catch((error) => console.log(error.message));
   };
 
   const renderItem = ({item}) => (
@@ -69,12 +115,20 @@ const TodoPage = ({route, navigation}) => {
         <View style={styles.itemWrap}>
           <View style={styles.marginLeft}>
             <CheckBox
-              checked={data.is_complete}
+              checked={item.is_complete}
               style={[{borderRadius: 10}]}
-              onPress={isComplete}
+              onPress={() => {
+                handleCheckBox(item.id);
+              }}
             />
           </View>
-          <Text style={styles.text}> {item.content} </Text>
+          <Text
+            style={[
+              styles.text,
+              {textDecorationLine: item.is_complete ? 'line-through' : 'none'},
+            ]}>
+            {item.content}
+          </Text>
         </View>
         <Text style={[styles.date]}>{handleDate(item.deadline)}</Text>
       </View>
@@ -92,39 +146,21 @@ const TodoPage = ({route, navigation}) => {
             data={data}
             keyExtractor={(item) => item.id.toString()}
             renderItem={renderItem}
-            scrollEnabled
+            scrollEnabled={true}
           />
-          <Modal
-            animationType="fade"
-            visible={isModalVisible}
-            onRequestClose={() => setModalVisible(false)}>
-            <View style={styles.modalView}>
-              <Text style={styles.text}>Change text:</Text>
-              <TextInput
-                style={styles.textInput}
-                onChangeText={(text) => {
-                  setInputText(text);
-                  console.log('state ', inputText);
-                }}
-                defaultValue={inputText}
-                editable={true}
-                multiline={false}
-                maxLength={200}
-              />
-              <TouchableHighlight
-                onPress={() => {
-                  handleEditItem(editedItem);
-                  setModalVisible(false);
-                }}
-                style={[styles.touchableHighlight]}
-                underlayColor={'#f1f1f1'}>
-                <Text style={styles.text}>Save</Text>
-              </TouchableHighlight>
-            </View>
-          </Modal>
+          <ModalWrapper
+            isModalVisible={isModalVisible}
+            setModalVisible={setModalVisible}
+            setInputText={setInputText}
+            inputText={inputText}
+            handleEditItem={handleEditItem}
+            editedItem={editedItem}
+            deadline={deadline}
+            setChangeDate={setDeadline}
+          />
         </View>
       </ScrollView>
-      <AddTodoButton />
+      <AddTodoButton onPress={handleNewTodo} />
     </SafeAreaView>
   );
 };
