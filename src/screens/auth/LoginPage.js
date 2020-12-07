@@ -15,8 +15,8 @@ const LoginPage = ({navigation}) => {
   useEffect(() => {
     getData('user_acc_token').then((jwt) => {
       //TODO: pls help fix this, async storage not working
-      jwt =
-        'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjA3MzQ1Njc5LCJqdGkiOiJmMDkzYjE4ODFmNzM0NGI2OGJkZjQ1MDEyZDEwYzM5MSIsInVzZXJfaWQiOjMxfQ.yjtI0mdU3nwp_7viwqwITZK6HXuaVVwjUFMlBXkaiy8';
+      // jwt =
+      //   'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjA3MzQ1Njc5LCJqdGkiOiJmMDkzYjE4ODFmNzM0NGI2OGJkZjQ1MDEyZDEwYzM5MSIsInVzZXJfaWQiOjMxfQ.yjtI0mdU3nwp_7viwqwITZK6HXuaVVwjUFMlBXkaiy8';
       if (jwt) {
         navigation.navigate('CategoryPage', {
           acc_token: jwt,
