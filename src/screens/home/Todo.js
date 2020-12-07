@@ -151,7 +151,7 @@ const TodoPage = ({route, navigation}) => {
   );
 
   return (
-    <SafeAreaView style={{width: '100%'}}>
+    <SafeAreaView style={{height: '100%'}}>
       <View style={styles.contentContainer}>
         <View style={styles.header}>
           <Text style={styles.headerText}> {category_name} </Text>

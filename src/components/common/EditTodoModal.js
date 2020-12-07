@@ -5,12 +5,13 @@ import {
   TouchableHighlight,
   View,
   TouchableOpacity,
+  Image,
 } from 'react-native';
 import styles from '../../screens/home/todo.style';
 import React, {useState} from 'react';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import {Button} from 'react-native-elements';
-import {Icon} from 'react-native-elements';
+import calendarIcon from '../../assets/Calendar.png';
 
 const ModalWrapper = (props) => {
   const [show, setShow] = useState(false);
@@ -18,14 +19,13 @@ const ModalWrapper = (props) => {
 
   return (
     <Modal
-      style={{height: 100}}
       animationType="fade"
       visible={props.isModalVisible}
       onRequestClose={() => props.setModalVisible(false)}>
       <View style={styles.modalView}>
-        <Button type={'Outline'} onPress={props.deleteThis} title="❌" />
-        <Text style={styles.text}>
-          {props.isNew ? 'Create Todo' : 'Edit Todo'}
+        <Button type={'Outline'} onPress={props.deleteThis} title="❌ Delete" />
+        <Text style={styles.textTitle}>
+          {props.isNew ? 'New Task' : 'Edit Task'}
         </Text>
         <View />
         {show && (
@@ -52,25 +52,34 @@ const ModalWrapper = (props) => {
           multiline={false}
           maxLength={200}
         />
-        <TouchableOpacity onPress={() => setShow(true)}>
-          <Icon name="calendar-outline" type="ionicon" />
-        </TouchableOpacity>
+        <View
+          style={{
+            flexDirection: 'row',
+            flexWrap: 'wrap',
+            justifyContent: 'center',
+          }}>
+          <TouchableHighlight
+            onPress={() => setShow(true)}
+            style={{flex: 1, marginLeft: 10}}>
+            <Image source={calendarIcon} style={{marginVertical: 10}} />
+          </TouchableHighlight>
 
-        <TouchableHighlight
-          onPress={() => {
-            if (!props.isNew) {
-              props.handleEditItem(props.editedItem);
-            } else {
+          <TouchableHighlight
+            onPress={() => {
+              if (!props.isNew) {
+                props.handleEditItem(props.editedItem);
+              } else {
+                props.setIsNew(false);
+                props.handleNewTodo();
+              }
               props.setIsNew(false);
-              props.handleNewTodo();
-            }
-            props.setIsNew(false);
-            props.setModalVisible(false);
-          }}
-          style={[styles.touchableHighlight]}
-          underlayColor={'#f1f1f1'}>
-          <Text style={styles.text}>Save</Text>
-        </TouchableHighlight>
+              props.setModalVisible(false);
+            }}
+            style={[styles.touchableHighlight]}
+            underlayColor={'#f1f1f1'}>
+            <Text style={styles.textSave}>Save</Text>
+          </TouchableHighlight>
+        </View>
       </View>
     </Modal>
   );

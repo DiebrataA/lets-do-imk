@@ -38,6 +38,19 @@ const styles = StyleSheet.create({
     marginVertical: 15,
     fontSize: 14,
     marginLeft: 20,
+    textAlign: 'left',
+  },
+  textSave: {
+    marginVertical: 15,
+    fontSize: 18,
+    marginLeft: 20,
+    textAlign: 'left',
+  },
+  textTitle: {
+    marginVertical: 15,
+    fontSize: 24,
+    textAlign: 'left',
+    fontWeight: 'bold',
   },
   date: {
     padding: 5,
@@ -52,25 +65,23 @@ const styles = StyleSheet.create({
   },
 
   textInput: {
-    width: '90%',
-    marginLeft: 10,
-    marginRight: 10,
+    width: '100%',
     marginBottom: 30,
-    borderColor: 'gray',
-    borderBottomWidth: 2,
     fontSize: 16,
+    padding: 15,
+    backgroundColor: 'rgba(144, 136, 212, 0.2)',
+    borderRadius: 16,
   },
   modalView: {
     flex: 1,
-    backgroundColor: 'red',
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: 'flex-start',
+    justifyContent: 'flex-start',
+    padding: 30,
   },
   touchableHighlight: {
-    backgroundColor: 'white',
-    marginVertical: 10,
-    alignSelf: 'stretch',
-    alignItems: 'center',
+    flex: 1,
+    alignItems: 'flex-end',
+    paddingHorizontal: 10,
   },
 });
 export default styles;
