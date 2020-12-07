@@ -1,13 +1,14 @@
-import {Fab, Icon} from 'native-base';
+import {Fab} from 'native-base';
+import {Icon} from 'react-native-elements';
 import React from 'react';
 
 const AddTodoButton = ({onPress}) => (
   <Fab
     direction="up"
-    containerStyle={{}}
+    style={{backgroundColor: '#9088D4', elevation: 5}}
     position="bottomRight"
     onPress={onPress}>
-    <Icon name="add" />
+    <Icon name="add" color="white" />
   </Fab>
 );
 export default AddTodoButton;

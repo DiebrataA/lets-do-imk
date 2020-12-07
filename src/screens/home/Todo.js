@@ -8,6 +8,7 @@ import {
   TextInput,
   Modal,
   TouchableHighlight,
+  SafeAreaView,
 } from 'react-native';
 import {requestGetAPI, requestPutAPI} from '../../services/ApiHelper';
 import {handleDate} from '../../utils';
@@ -20,6 +21,7 @@ const TodoPage = ({route, navigation}) => {
   const [inputText, setInputText] = useState('');
   const [editedItem, setEditedItem] = useState(0);
   const [data, setData] = useState([]);
+  const [isCompleteTask, setIsCompleteTask] = useState(false);
 
   useEffect(() => {
     requestGetAPI(`notes/category/${category_id}/`, acc_token)
@@ -50,6 +52,11 @@ const TodoPage = ({route, navigation}) => {
     setData(newData);
   };
 
+  const isComplete = () => {
+    setIsCompleteTask(data.is_complete);
+    data.is_complete == true ? alert('true') : alert('false');
+  };
+
   const renderItem = ({item}) => (
     <TouchableHighlight
       onPress={() => {
@@ -64,7 +71,7 @@ const TodoPage = ({route, navigation}) => {
             <CheckBox
               checked={data.is_complete}
               style={[{borderRadius: 10}]}
-              onPress={() => alert('hello')}
+              onPress={isComplete}
             />
           </View>
           <Text style={styles.text}> {item.content} </Text>
@@ -75,46 +82,50 @@ const TodoPage = ({route, navigation}) => {
   );
 
   return (
-    <View style={styles.contentContainer}>
-      <View style={styles.header}>
-        <Text style={styles.headerText}> {category_name} </Text>
-      </View>
-      <FlatList
-        data={data}
-        keyExtractor={(item) => item.id.toString()}
-        renderItem={renderItem}
-        scrollEnabled
-      />
-      <Modal
-        animationType="fade"
-        visible={isModalVisible}
-        onRequestClose={() => setModalVisible(false)}>
-        <View style={styles.modalView}>
-          <Text style={styles.text}>Change text:</Text>
-          <TextInput
-            style={styles.textInput}
-            onChangeText={(text) => {
-              setInputText(text);
-              console.log('state ', inputText);
-            }}
-            defaultValue={inputText}
-            editable={true}
-            multiline={false}
-            maxLength={200}
+    <SafeAreaView style={{width: '100%'}}>
+      <ScrollView>
+        <View style={styles.contentContainer}>
+          <View style={styles.header}>
+            <Text style={styles.headerText}> {category_name} </Text>
+          </View>
+          <FlatList
+            data={data}
+            keyExtractor={(item) => item.id.toString()}
+            renderItem={renderItem}
+            scrollEnabled
           />
-          <TouchableHighlight
-            onPress={() => {
-              handleEditItem(editedItem);
-              setModalVisible(false);
-            }}
-            style={[styles.touchableHighlight]}
-            underlayColor={'#f1f1f1'}>
-            <Text style={styles.text}>Save</Text>
-          </TouchableHighlight>
+          <Modal
+            animationType="fade"
+            visible={isModalVisible}
+            onRequestClose={() => setModalVisible(false)}>
+            <View style={styles.modalView}>
+              <Text style={styles.text}>Change text:</Text>
+              <TextInput
+                style={styles.textInput}
+                onChangeText={(text) => {
+                  setInputText(text);
+                  console.log('state ', inputText);
+                }}
+                defaultValue={inputText}
+                editable={true}
+                multiline={false}
+                maxLength={200}
+              />
+              <TouchableHighlight
+                onPress={() => {
+                  handleEditItem(editedItem);
+                  setModalVisible(false);
+                }}
+                style={[styles.touchableHighlight]}
+                underlayColor={'#f1f1f1'}>
+                <Text style={styles.text}>Save</Text>
+              </TouchableHighlight>
+            </View>
+          </Modal>
         </View>
-      </Modal>
+      </ScrollView>
       <AddTodoButton />
-    </View>
+    </SafeAreaView>
   );
 };
 export default TodoPage;
