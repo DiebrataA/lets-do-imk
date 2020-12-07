@@ -36,9 +36,9 @@ const styles = {
   textLogout: {
     alignSelf: 'center',
     color: '#FF4B5C',
-    fontSize: 18,
+    fontSize: 14,
     fontWeight: '200',
-    paddingVertical: 18,
+    paddingVertical: 8,
     textTransform: 'uppercase',
     letterSpacing: 0.24,
   },

@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {Text, TouchableOpacity, View} from 'react-native';
+import {SafeAreaView, Text, TouchableOpacity, View} from 'react-native';
 import ListView from '../../components/common/ListView';
 import {requestGetAPI} from '../../services/ApiHelper';
 import {TextLink, Input, ButtonLogout} from '../../components/common/Button';
@@ -17,23 +17,25 @@ const CategoryPage = ({route, navigation}) => {
   }, [acc_token]);
 
   return (
-    <View style={styles.container}>
-      {category.map((item) => (
-        <ListView
-          item={item}
-          key={item.id}
-          callback={() =>
-            navigation.navigate('TodoPage', {
-              acc_token: acc_token,
-              category_id: item.id,
-              category_name: item.name,
-            })
-          }
-        />
-      ))}
-      <TouchableOpacity style={styles.addButton}>
-        <Text style={styles.addIcon}>+</Text>
-      </TouchableOpacity>
+    <SafeAreaView style={{height: '100%'}}>
+      <View style={styles.container}>
+        {category.map((item) => (
+          <ListView
+            item={item}
+            key={item.id}
+            callback={() =>
+              navigation.navigate('TodoPage', {
+                acc_token: acc_token,
+                category_id: item.id,
+                category_name: item.name,
+              })
+            }
+          />
+        ))}
+        <TouchableOpacity style={styles.addButton}>
+          <Text style={styles.addIcon}>+</Text>
+        </TouchableOpacity>
+      </View>
       <View style={styles.containerLogout}>
         <ButtonLogout
           onPress={() => {
@@ -43,7 +45,7 @@ const CategoryPage = ({route, navigation}) => {
           Logout
         </ButtonLogout>
       </View>
-    </View>
+    </SafeAreaView>
   );
 };
 export default CategoryPage;
@@ -59,8 +61,10 @@ const styles = {
   },
   containerLogout: {
     flex: 1,
-    marginHorizontal: 33,
-    marginTop: 200,
+    width: '50%',
+    marginBottom: 50,
+    justifyContent: 'flex-end',
+    alignSelf: 'center',
   },
   addButton: {
     padding: 10,
