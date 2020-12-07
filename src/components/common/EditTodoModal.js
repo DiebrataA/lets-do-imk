@@ -1,8 +1,18 @@
-import {Modal, Text, TextInput, TouchableHighlight, View} from 'react-native';
+import {
+  Modal,
+  Text,
+  TextInput,
+  TouchableHighlight,
+  View,
+  Image,
+  TouchableOpacity,
+} from 'react-native';
 import styles from '../../screens/home/todo.style';
 import React, {useState} from 'react';
 import DateTimePicker from '@react-native-community/datetimepicker';
-import {Button} from 'react-native-elements';
+import {Button} from '../common/Button';
+import Cal from '../../assets/Calendar.svg';
+import {Icon} from 'react-native-elements';
 
 const ModalWrapper = (props) => {
   const [show, setShow] = useState(false);
@@ -10,6 +20,7 @@ const ModalWrapper = (props) => {
 
   return (
     <Modal
+      style={{height: 100}}
       animationType="fade"
       visible={props.isModalVisible}
       onRequestClose={() => props.setModalVisible(false)}>
@@ -40,7 +51,9 @@ const ModalWrapper = (props) => {
           multiline={false}
           maxLength={200}
         />
-        <Button type={'Outline'} onPress={() => setShow(true)} title="📅" />
+        <TouchableOpacity onPress={() => setShow(true)}>
+          <Icon name="calendar-outline" type="ionicon" />
+        </TouchableOpacity>
 
         <TouchableHighlight
           onPress={() => {

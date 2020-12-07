@@ -1,13 +1,11 @@
 import React, {useEffect, useState} from 'react';
 import styles from './todo.style';
 import {CheckBox} from 'native-base';
-import {Text, View, FlatList, TouchableHighlight} from 'react-native';
 import {
   Text,
   View,
   FlatList,
-  TextInput,
-  Modal,
+  ScrollView,
   TouchableHighlight,
   SafeAreaView,
 } from 'react-native';
@@ -137,29 +135,28 @@ const TodoPage = ({route, navigation}) => {
 
   return (
     <SafeAreaView style={{width: '100%'}}>
-      <ScrollView>
-        <View style={styles.contentContainer}>
-          <View style={styles.header}>
-            <Text style={styles.headerText}> {category_name} </Text>
-          </View>
-          <FlatList
-            data={data}
-            keyExtractor={(item) => item.id.toString()}
-            renderItem={renderItem}
-            scrollEnabled={true}
-          />
-          <ModalWrapper
-            isModalVisible={isModalVisible}
-            setModalVisible={setModalVisible}
-            setInputText={setInputText}
-            inputText={inputText}
-            handleEditItem={handleEditItem}
-            editedItem={editedItem}
-            deadline={deadline}
-            setChangeDate={setDeadline}
-          />
+      <View style={styles.contentContainer}>
+        <View style={styles.header}>
+          <Text style={styles.headerText}> {category_name} </Text>
         </View>
-      </ScrollView>
+        <FlatList
+          data={data}
+          keyExtractor={(item) => item.id.toString()}
+          renderItem={renderItem}
+          scrollEnabled={true}
+        />
+        <ModalWrapper
+          isModalVisible={isModalVisible}
+          setModalVisible={setModalVisible}
+          setInputText={setInputText}
+          inputText={inputText}
+          handleEditItem={handleEditItem}
+          editedItem={editedItem}
+          deadline={deadline}
+          setChangeDate={setDeadline}
+        />
+      </View>
+
       <AddTodoButton onPress={handleNewTodo} />
     </SafeAreaView>
   );
