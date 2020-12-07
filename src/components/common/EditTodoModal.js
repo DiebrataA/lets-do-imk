@@ -14,7 +14,10 @@ const ModalWrapper = (props) => {
       visible={props.isModalVisible}
       onRequestClose={() => props.setModalVisible(false)}>
       <View style={styles.modalView}>
-        <Text style={styles.text}>Create Todo:</Text>
+        <Button type={'Outline'} onPress={props.deleteThis} title="❌" />
+        <Text style={styles.text}>
+          {props.isNew ? 'Create Todo' : 'Edit Todo'}
+        </Text>
         <View />
         {show && (
           <DateTimePicker
@@ -41,10 +44,15 @@ const ModalWrapper = (props) => {
           maxLength={200}
         />
         <Button type={'Outline'} onPress={() => setShow(true)} title="📅" />
-
         <TouchableHighlight
           onPress={() => {
-            props.handleEditItem(props.editedItem);
+            if (!props.isNew) {
+              props.handleEditItem(props.editedItem);
+            } else {
+              props.setIsNew(false);
+              props.handleNewTodo();
+            }
+            props.setIsNew(false);
             props.setModalVisible(false);
           }}
           style={[styles.touchableHighlight]}
