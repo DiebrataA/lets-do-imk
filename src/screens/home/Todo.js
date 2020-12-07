@@ -7,7 +7,6 @@ import {
   FlatList,
   TouchableHighlight,
   SafeAreaView,
-  ScrollView,
 } from 'react-native';
 import {
   requestDeleteAPI,
@@ -15,6 +14,7 @@ import {
   requestPostAPI,
   requestPutAPI,
 } from '../../services/ApiHelper';
+
 import {handleDate} from '../../utils';
 import AddTodoButton from '../../components/common/AddTodoButton';
 import ModalWrapper from '../../components/common/EditTodoModal';
@@ -152,33 +152,32 @@ const TodoPage = ({route, navigation}) => {
 
   return (
     <SafeAreaView style={{width: '100%'}}>
-      <ScrollView>
-        <View style={styles.contentContainer}>
-          <View style={styles.header}>
-            <Text style={styles.headerText}> {category_name} </Text>
-          </View>
-          <FlatList
-            data={data}
-            keyExtractor={(item) => item.id.toString()}
-            renderItem={renderItem}
-            scrollEnabled={true}
-          />
-          <ModalWrapper
-            isModalVisible={isModalVisible}
-            setModalVisible={setModalVisible}
-            setInputText={setInputText}
-            inputText={inputText}
-            handleEditItem={handleEditItem}
-            deleteThis={() => handleDelete(editedItem)}
-            editedItem={editedItem}
-            deadline={deadline}
-            setChangeDate={setDeadline}
-            isNew={isNew}
-            setIsNew={setIsNew}
-            handleNewTodo={actuallyPostNewTodo}
-          />
+      <View style={styles.contentContainer}>
+        <View style={styles.header}>
+          <Text style={styles.headerText}> {category_name} </Text>
         </View>
-      </ScrollView>
+        <FlatList
+          data={data}
+          keyExtractor={(item) => item.id.toString()}
+          renderItem={renderItem}
+          scrollEnabled={true}
+        />
+        <ModalWrapper
+          isModalVisible={isModalVisible}
+          setModalVisible={setModalVisible}
+          setInputText={setInputText}
+          inputText={inputText}
+          handleEditItem={handleEditItem}
+          deleteThis={() => handleDelete(editedItem)}
+          editedItem={editedItem}
+          deadline={deadline}
+          setChangeDate={setDeadline}
+          isNew={isNew}
+          setIsNew={setIsNew}
+          handleNewTodo={actuallyPostNewTodo}
+        />
+      </View>
+
       <AddTodoButton onPress={handleNewTodo} />
     </SafeAreaView>
   );
