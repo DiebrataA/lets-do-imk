@@ -23,7 +23,9 @@ const ModalWrapper = (props) => {
       visible={props.isModalVisible}
       onRequestClose={() => props.setModalVisible(false)}>
       <View style={styles.modalView}>
-        <Button type={'Outline'} onPress={props.deleteThis} title="❌ Delete" />
+        <TouchableOpacity onPress={props.deleteThis}>
+          <Text>❌ Delete</Text>
+        </TouchableOpacity>
         <Text style={styles.textTitle}>
           {props.isNew ? 'New Task' : 'Edit Task'}
         </Text>
@@ -58,13 +60,13 @@ const ModalWrapper = (props) => {
             flexWrap: 'wrap',
             justifyContent: 'center',
           }}>
-          <TouchableHighlight
+          <TouchableOpacity
             onPress={() => setShow(true)}
             style={{flex: 1, marginLeft: 10}}>
             <Image source={calendarIcon} style={{marginVertical: 10}} />
-          </TouchableHighlight>
+          </TouchableOpacity>
 
-          <TouchableHighlight
+          <TouchableOpacity
             onPress={() => {
               if (!props.isNew) {
                 props.handleEditItem(props.editedItem);
@@ -78,7 +80,7 @@ const ModalWrapper = (props) => {
             style={[styles.touchableHighlight]}
             underlayColor={'#f1f1f1'}>
             <Text style={styles.textSave}>Save</Text>
-          </TouchableHighlight>
+          </TouchableOpacity>
         </View>
       </View>
     </Modal>
