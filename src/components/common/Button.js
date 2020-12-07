@@ -12,10 +12,30 @@ const Button = ({onPress, children}) => {
   );
 };
 
+const ButtonLogout = ({onPress, children}) => {
+  const {buttonLogout, textLogout} = styles;
+  return (
+    <View style={{flexDirection: 'row'}}>
+      <TouchableOpacity onPress={onPress} style={buttonLogout}>
+        <Text style={textLogout}>{children}</Text>
+      </TouchableOpacity>
+    </View>
+  );
+};
+
 const styles = {
   text: {
     alignSelf: 'center',
     color: 'white',
+    fontSize: 18,
+    fontWeight: '200',
+    paddingVertical: 18,
+    textTransform: 'uppercase',
+    letterSpacing: 0.24,
+  },
+  textLogout: {
+    alignSelf: 'center',
+    color: '#FF4B5C',
     fontSize: 18,
     fontWeight: '200',
     paddingVertical: 18,
@@ -28,6 +48,14 @@ const styles = {
     borderRadius: 32,
     marginVertical: 5,
   },
+  buttonLogout: {
+    flex: 1,
+    backgroundColor: 'transparent',
+    borderColor: '#FF4B5C',
+    borderWidth: 2,
+    borderRadius: 32,
+    marginVertical: 5,
+  },
 };
 
-export {Button};
+export {Button, ButtonLogout};

@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {Text, TouchableOpacity, View} from 'react-native';
 import ListView from '../../components/common/ListView';
 import {requestGetAPI} from '../../services/ApiHelper';
-import {TextLink, Input} from '../../components/common';
+import {TextLink, Input, ButtonLogout} from '../../components/common/Button';
 import {removeData} from '../../services';
 
 const CategoryPage = ({route, navigation}) => {
@@ -18,9 +18,6 @@ const CategoryPage = ({route, navigation}) => {
 
   return (
     <View style={styles.container}>
-      <View style={styles.section}>
-        <Input placeholder="search task" />
-      </View>
       {category.map((item) => (
         <ListView
           item={item}
@@ -37,13 +34,15 @@ const CategoryPage = ({route, navigation}) => {
       <TouchableOpacity style={styles.addButton}>
         <Text style={styles.addIcon}>+</Text>
       </TouchableOpacity>
-      <TextLink
-        onPress={() => {
-          removeData('user_access_token');
-          navigation.navigate('LoginPage');
-        }}>
-        Logout
-      </TextLink>
+      <View style={styles.containerLogout}>
+        <ButtonLogout
+          onPress={() => {
+            removeData('user_access_token');
+            navigation.navigate('LoginPage');
+          }}>
+          Logout
+        </ButtonLogout>
+      </View>
     </View>
   );
 };
@@ -57,6 +56,11 @@ const styles = {
     flexDirection: 'row',
     flexWrap: 'wrap',
     marginHorizontal: 33,
+  },
+  containerLogout: {
+    flex: 1,
+    marginHorizontal: 33,
+    marginTop: 200,
   },
   addButton: {
     padding: 10,
