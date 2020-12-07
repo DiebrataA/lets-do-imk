@@ -1,7 +1,14 @@
 import React, {useEffect, useState} from 'react';
 import styles from './todo.style';
 import {CheckBox} from 'native-base';
-import {Text, View, FlatList, TouchableHighlight} from 'react-native';
+import {
+  Text,
+  View,
+  FlatList,
+  TouchableHighlight,
+  SafeAreaView,
+  ScrollView,
+} from 'react-native';
 import {
   requestDeleteAPI,
   requestGetAPI,
@@ -20,6 +27,7 @@ const TodoPage = ({route, navigation}) => {
   const [editedItem, setEditedItem] = useState(0);
   const [data, setData] = useState([]);
   const [isNew, setIsNew] = useState(false);
+  const [isCompleteTask, setIsCompleteTask] = useState(false);
 
   useEffect(() => {
     requestGetAPI(`notes/category/${category_id}/`, acc_token)
@@ -143,34 +151,36 @@ const TodoPage = ({route, navigation}) => {
   );
 
   return (
-    <View>
-      <View style={styles.contentContainer}>
-        <View style={styles.header}>
-          <Text style={styles.headerText}> {category_name}</Text>
+    <SafeAreaView style={{width: '100%'}}>
+      <ScrollView>
+        <View style={styles.contentContainer}>
+          <View style={styles.header}>
+            <Text style={styles.headerText}> {category_name} </Text>
+          </View>
+          <FlatList
+            data={data}
+            keyExtractor={(item) => item.id.toString()}
+            renderItem={renderItem}
+            scrollEnabled={true}
+          />
+          <ModalWrapper
+            isModalVisible={isModalVisible}
+            setModalVisible={setModalVisible}
+            setInputText={setInputText}
+            inputText={inputText}
+            handleEditItem={handleEditItem}
+            deleteThis={() => handleDelete(editedItem)}
+            editedItem={editedItem}
+            deadline={deadline}
+            setChangeDate={setDeadline}
+            isNew={isNew}
+            setIsNew={setIsNew}
+            handleNewTodo={actuallyPostNewTodo}
+          />
         </View>
-        <FlatList
-          data={data}
-          keyExtractor={(item) => item.id.toString()}
-          renderItem={renderItem}
-          scrollEnabled={true}
-        />
-        <ModalWrapper
-          isModalVisible={isModalVisible}
-          setModalVisible={setModalVisible}
-          setInputText={setInputText}
-          inputText={inputText}
-          handleEditItem={handleEditItem}
-          deleteThis={() => handleDelete(editedItem)}
-          editedItem={editedItem}
-          deadline={deadline}
-          setChangeDate={setDeadline}
-          isNew={isNew}
-          setIsNew={setIsNew}
-          handleNewTodo={actuallyPostNewTodo}
-        />
-      </View>
+      </ScrollView>
       <AddTodoButton onPress={handleNewTodo} />
-    </View>
+    </SafeAreaView>
   );
 };
 export default TodoPage;
