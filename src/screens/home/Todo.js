@@ -51,7 +51,7 @@ const TodoPage = ({route, navigation}) => {
       if (item.id === edited) {
         item.is_complete = !item.is_complete;
         const payload = {
-          is_complete: !item.is_complete,
+          is_complete: item.is_complete,
           deadline: item.deadline,
           content: item.content,
           category: category_id,
