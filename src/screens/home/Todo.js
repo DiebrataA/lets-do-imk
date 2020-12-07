@@ -74,10 +74,10 @@ const TodoPage = ({route, navigation}) => {
     const newData = data.map((item) => {
       if (item.id === edited) {
         item.content = inputText;
-        item.deadline = deadline;
+        item.deadline = deadline ? deadline : item.deadline;
         const payload = {
           is_complete: item.is_complete,
-          deadline: deadline,
+          deadline: item.deadline,
           content: item.content,
           category: category_id,
         };
