@@ -45,6 +45,7 @@ const LoginPage = ({navigation}) => {
         navigation.navigate('CategoryPage', {
           acc_token: acc,
         });
+        setLoading(false);
       })
       .catch((e) => {
         console.log(BASE_API + 'auth/token/');
